@@ -16,9 +16,9 @@ public class Tag {
 
     Tag(String name) throws Exception {
         if (name.contains("&")||name.contains("|")||name.contains("!")) {
-        this.id = counter;
-        counter++;
-        this.name = new SimpleStringProperty(name);
+            this.id = counter;
+            counter++;
+            this.name = new SimpleStringProperty(name);
         } else {
             throw new Exception("Некорректное название тега");
         }
