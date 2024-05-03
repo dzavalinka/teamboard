@@ -2,10 +2,12 @@ package com.dzavalinskii;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class ChangePersonController {
 
@@ -26,7 +28,12 @@ public class ChangePersonController {
 
     @FXML
     void cancel_ep(ActionEvent event) {
-
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
     }
 
+    public void saveChanges(ActionEvent actionEvent) {
+
+    }
 }

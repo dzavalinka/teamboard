@@ -2,11 +2,13 @@ package com.dzavalinskii;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
+import javafx.stage.Stage;
 
 public class NewLinkTypeController {
 
@@ -35,7 +37,9 @@ public class NewLinkTypeController {
 
     @FXML
     void cancel(ActionEvent event) {
-
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
     }
 
 }

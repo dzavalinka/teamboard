@@ -2,8 +2,10 @@ package com.dzavalinskii;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 import org.controlsfx.control.CheckComboBox;
 
 public class NewPersonController {
@@ -30,7 +32,9 @@ public class NewPersonController {
 
     @FXML
     void cancel(ActionEvent event) {
-
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
     }
 
 }

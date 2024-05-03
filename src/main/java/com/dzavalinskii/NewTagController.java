@@ -2,8 +2,10 @@ package com.dzavalinskii;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class NewTagController {
 
@@ -18,7 +20,11 @@ public class NewTagController {
 
     @FXML
     void cancel(ActionEvent event) {
-
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
     }
 
+    public void addTag(ActionEvent actionEvent) {
+    }
 }

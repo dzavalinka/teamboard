@@ -11,7 +11,7 @@
     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
          <children>
             <Button fx:id="cancel_nt" cancelButton="true" layoutX="97.0" layoutY="295.0" mnemonicParsing="false" onAction="#cancel" text="Отмена" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="100.0" />
-            <Button fx:id="ok_nt" defaultButton="true" layoutX="422.0" layoutY="295.0" mnemonicParsing="false" text="ОК" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="100.0" />
+            <Button fx:id="ok_nt" defaultButton="true" layoutX="422.0" layoutY="295.0" mnemonicParsing="false" onAction="#addTag" text="ОК" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="100.0" />
             <TextField fx:id="tag_name" layoutX="362.0" layoutY="107.0" AnchorPane.rightAnchor="100.0" />
             <Label layoutX="50.0" layoutY="111.0" text="Введите название тега" AnchorPane.leftAnchor="100.0" />
          </children></AnchorPane>
