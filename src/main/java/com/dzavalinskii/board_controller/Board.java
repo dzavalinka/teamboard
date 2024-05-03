@@ -12,6 +12,7 @@ public class Board implements Comparable<Board> {
     private SimpleStringProperty description;
     private Date timestamp;
     public HashMap<Integer, PersonLocation> personLocations;
+    private  ArrayList<Link> links;
     public final int id;
     private static int counter;
 
@@ -52,6 +53,7 @@ public class Board implements Comparable<Board> {
         this.description = new SimpleStringProperty(description);
         this.timestamp = timestamp;
         this.personLocations = new HashMap<>();
+        this.links = new ArrayList<>();
         this.id = counter;
         counter++;
     }

@@ -1,16 +1,16 @@
 package com.dzavalinskii.board_controller;
 
 public class Link {
-    private LinkType linkType;
+    private int linkTypeId;
     private int person1;
     private int person2;
 
-    public LinkType getLinkType() {
-        return linkType;
+    public int getLinkTypeId() {
+        return linkTypeId;
     }
 
-    public void setLinkType(LinkType linkType) {
-        this.linkType = linkType;
+    public void setLinkTypeId(int linkTypeId) {
+        this.linkTypeId = linkTypeId;
     }
 
     public int getPerson1() {
@@ -29,8 +29,8 @@ public class Link {
         this.person2 = person2;
     }
 
-    public Link(LinkType linkType, int person1, int person2) {
-        this.linkType = linkType;
+    public Link(int linkTypeId, int person1, int person2) {
+        this.linkTypeId = linkTypeId;
         this.person1 = person1;
         this.person2 = person2;
     }

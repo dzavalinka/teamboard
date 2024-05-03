@@ -7,6 +7,7 @@ public class LinkType {
     private LinkLineType lineType;
     private Color color;
     private SimpleStringProperty name;
+    private boolean twoSided;
     private final int id;
     private static int counter;
 
@@ -38,10 +39,11 @@ public class LinkType {
         this.name.set(name);
     }
 
-    public LinkType(LinkLineType lineType, Color color, String name) {
+    public LinkType(LinkLineType lineType, Color color, String name, boolean twoSided) {
         this.lineType = lineType;
         this.color = color;
         this.name.set(name);
+        this.twoSided = twoSided;
         this.id = counter;
         counter++;
     }
