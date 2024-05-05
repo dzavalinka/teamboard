@@ -4,6 +4,7 @@ public class Link {
     private int linkTypeId;
     private int person1;
     private int person2;
+    private final int boardId;
 
     public int getLinkTypeId() {
         return linkTypeId;
@@ -29,9 +30,10 @@ public class Link {
         this.person2 = person2;
     }
 
-    public Link(int linkTypeId, int person1, int person2) {
+    public Link(int linkTypeId, int person1, int person2, int boardId) {
         this.linkTypeId = linkTypeId;
         this.person1 = person1;
         this.person2 = person2;
+        this.boardId = boardId;
     }
 }

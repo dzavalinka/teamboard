@@ -7,12 +7,11 @@ import java.util.Date;
 import java.util.HashMap;
 
 public class Board implements Comparable<Board> {
-
+    public final int collectiveId;
     private SimpleStringProperty name;
     private SimpleStringProperty description;
     private Date timestamp;
-    public HashMap<Integer, PersonLocation> personLocations;
-    private  ArrayList<Link> links;
+
     public final int id;
     private static int counter;
 
@@ -48,12 +47,11 @@ public class Board implements Comparable<Board> {
         this.timestamp = timestamp;
     }
 
-    public Board(String name, String description, Date timestamp) {
+    public Board(int collectiveId, String name, String description, Date timestamp) {
+        this.collectiveId = collectiveId;
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
         this.timestamp = timestamp;
-        this.personLocations = new HashMap<>();
-        this.links = new ArrayList<>();
         this.id = counter;
         counter++;
     }
