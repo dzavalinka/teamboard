@@ -6,10 +6,7 @@ import java.util.ArrayList;
 
 public class Collective {
     private SimpleStringProperty name;
-    private ArrayList<Tag> tags;
-    private ArrayList<LinkType> linkTypes;
-    private ArrayList<Person> persons;
-    private ArrayList<Board> boards;
+    private SimpleStringProperty description;
 
     public String getName() {
         return name.get();
@@ -19,11 +16,15 @@ public class Collective {
         this.name.set(name);
     }
 
+    public String getDescription() {
+        return description.get();
+    }
+
+    public void setDescription(String description) {
+        this.description.set(description);
+    }
+
     public Collective(String name) {
         this.name = new SimpleStringProperty(name);
-        tags = new ArrayList<>();
-        linkTypes = new ArrayList<>();
-        persons = new ArrayList<>();
-        boards = new ArrayList<>();
     }
 }

@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
  * Класс, представляющий тег - некое свойство персоны.
  * У тега есть имя и числовой идентификатор.
  */
-public class Tag {
+public class TagType {
     private SimpleStringProperty name;
     public final int id;
     private static int counter;
@@ -14,7 +14,7 @@ public class Tag {
     public String getName(){ return name.get();}
     public void setName(String value){ name.set(value);}
 
-    Tag(String name) throws Exception {
+    TagType(String name) throws Exception {
         if (name.contains("&")||name.contains("|")||name.contains("!")) {
             this.id = counter;
             counter++;
