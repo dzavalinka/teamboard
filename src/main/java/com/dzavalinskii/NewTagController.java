@@ -26,5 +26,6 @@ public class NewTagController {
     }
 
     public void addTag(ActionEvent actionEvent) {
+
     }
 }

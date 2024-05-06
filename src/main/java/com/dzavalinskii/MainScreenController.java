@@ -49,5 +49,4 @@ public class MainScreenController {
         Stage stage = new Stage();
         stage.setScene(new Scene(root));
     }
-
 }
