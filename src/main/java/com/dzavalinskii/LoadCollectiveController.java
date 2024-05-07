@@ -1,6 +1,8 @@
 package com.dzavalinskii;
 
-import com.dzavalinskii.board_controller.Collective;
+import com.dzavalinskii.DBUtils;
+import com.dzavalinskii.util_classes.Collective;
+import com.dzavalinskii.util_classes.CollectiveListCell;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -40,7 +42,8 @@ public class LoadCollectiveController implements Initializable {
 
     @FXML
     void deleteSelectedCollective(ActionEvent event) {
-
+        DBUtils.deleteCollective(saved_list.getSelectionModel().getSelectedItem().getName());
+        saved_list.setItems(DBUtils.loadCollectives());
     }
 
     @FXML
@@ -50,7 +53,7 @@ public class LoadCollectiveController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        saved_list = new ListView<>(DBUtils.loadCollectives());
+        saved_list.setItems(DBUtils.loadCollectives());
         saved_list.setCellFactory(param -> new CollectiveListCell());
     }
 }

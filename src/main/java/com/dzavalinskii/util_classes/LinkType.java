@@ -1,4 +1,4 @@
-package com.dzavalinskii.board_controller;
+package com.dzavalinskii.util_classes;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.paint.Color;

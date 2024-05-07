@@ -1,10 +1,8 @@
-package com.dzavalinskii.board_controller;
+package com.dzavalinskii.util_classes;
 
 import javafx.beans.property.SimpleStringProperty;
 
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 
 public class Board implements Comparable<Board> {
     public final int collectiveId;
@@ -13,7 +11,6 @@ public class Board implements Comparable<Board> {
     private Date timestamp;
 
     public final int id;
-    private static int counter;
 
     public String getName() {
         return name.get();
@@ -47,13 +44,12 @@ public class Board implements Comparable<Board> {
         this.timestamp = timestamp;
     }
 
-    public Board(int collectiveId, String name, String description, Date timestamp) {
+    public Board(int collectiveId, String name, String description, Date timestamp, int id) {
         this.collectiveId = collectiveId;
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
         this.timestamp = timestamp;
-        this.id = counter;
-        counter++;
+        this.id = id;
     }
 
     @Override

@@ -1,12 +1,14 @@
-package com.dzavalinskii.board_controller;
+package com.dzavalinskii.util_classes;
 
 import javafx.beans.property.SimpleStringProperty;
+import javafx.scene.image.Image;
 
-
-public class Collective {
+public class Person {
     private SimpleStringProperty name;
     private SimpleStringProperty description;
+    private Image avatar;
     public final int id;
+    private static int counter;
 
     public String getName() {
         return name.get();
@@ -24,9 +26,10 @@ public class Collective {
         this.description.set(description);
     }
 
-    public Collective(int id, String name, String description) {
+    public Person(String name, String description) {
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
-        this.id = id;
+        this.id = counter;
+        counter++;
     }
 }

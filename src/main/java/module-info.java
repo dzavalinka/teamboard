@@ -8,4 +8,6 @@ module com.dzavalinskii {
 
     opens com.dzavalinskii to javafx.fxml;
     exports com.dzavalinskii;
+    exports com.dzavalinskii.util_classes;
+    opens com.dzavalinskii.util_classes to javafx.fxml;
 }

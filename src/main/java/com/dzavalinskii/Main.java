@@ -14,26 +14,16 @@ import java.sql.Statement;
 
 public class Main extends Application {
 
-    /*public static void main(String[] args) throws Exception {
+    public static int currentCollectiveId = 0;
 
-
-        try (Connection connection = DriverManager.getConnection(DBUtils.jdbcURL)) {
-            Statement statement = connection.createStatement();
-            statement.executeUpdate("ALTER TABLE collectives ADD COLUMN description VARCHAR(255)");
-            System.out.println("success");
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-    }*/
     public void start(Stage primaryStage) {
 
         try {
-            Parent root = FXMLLoader.load(getClass().getResource("load_screen.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("main_screen.fxml"));
             primaryStage.setScene(new Scene(root));
             primaryStage.show();
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 }

@@ -1,6 +1,6 @@
 package com.dzavalinskii;
 
-import com.dzavalinskii.board_controller.Collective;
+import com.dzavalinskii.util_classes.Collective;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;

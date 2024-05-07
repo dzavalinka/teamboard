@@ -1,4 +1,4 @@
-package com.dzavalinskii.board_controller;
+package com.dzavalinskii.util_classes;
 
 public class PersonLocation {
     private int latitude;

@@ -1,4 +1,4 @@
-package com.dzavalinskii.board_controller;
+package com.dzavalinskii.util_classes;
 
 import java.util.ArrayList;
 

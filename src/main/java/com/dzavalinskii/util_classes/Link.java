@@ -1,4 +1,4 @@
-package com.dzavalinskii.board_controller;
+package com.dzavalinskii.util_classes;
 
 public class Link {
     private int linkTypeId;

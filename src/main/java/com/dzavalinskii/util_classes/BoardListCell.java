@@ -1,22 +1,21 @@
-package com.dzavalinskii;
+package com.dzavalinskii.util_classes;
 
-import com.dzavalinskii.board_controller.Collective;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.VBox;
 
-public class CollectiveListCell extends ListCell<Collective> {
+public class BoardListCell extends ListCell<Board> {
     private final Label name = new Label();
     private final Label description = new Label();
     private final VBox layout = new VBox(name, description);
 
-    public CollectiveListCell() {
+    public BoardListCell() {
         super();
-        name.setStyle("fx-font-size: 20px;");
+        name.setStyle("-fx-font-size: 20px;");
     }
 
     @Override
-    protected void updateItem(Collective item, boolean empty) {
+    protected void updateItem(Board item, boolean empty) {
         super.updateItem(item, empty);
         setText(null);
 
