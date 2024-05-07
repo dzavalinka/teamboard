@@ -12,7 +12,7 @@
       <ListView fx:id="saved_list" layoutX="242.0" prefHeight="400.0" prefWidth="170.0" AnchorPane.rightAnchor="1.0" />
       <Button fx:id="load_btn" layoutX="22.0" layoutY="349.0" mnemonicParsing="false" onAction="#loadCollective" text="Загрузить" />
       <Button fx:id="create_collective_btn" layoutX="17.0" layoutY="233.0" mnemonicParsing="false" onAction="#createCollective" text="Создать" />
-      <Button fx:id="delete_btn" layoutX="111.0" layoutY="349.0" mnemonicParsing="false" onAction="#delete_selected_collective" text="Удалить" />
+      <Button fx:id="delete_btn" layoutX="111.0" layoutY="349.0" mnemonicParsing="false" onAction="#deleteSelectedCollective" text="Удалить" />
       <TextField fx:id="new_collective_name" layoutX="16.0" layoutY="65.0" />
       <TextArea fx:id="new_collective_desc" layoutX="16.0" layoutY="127.0" prefHeight="88.0" prefWidth="150.0" />
       <Label layoutX="16.0" layoutY="14.0" prefHeight="42.0" prefWidth="164.0" text="Введите название нового коллектива" wrapText="true" />

@@ -1,19 +1,24 @@
 package com.dzavalinskii;
 
+import com.dzavalinskii.board_controller.Collective;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 
-public class LoadCollectiveController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class LoadCollectiveController implements Initializable {
 
     @FXML
     private Button load_btn;
 
     @FXML
-    private ListView<?> saved_list;
+    private ListView<Collective> saved_list;
 
     @FXML
     private TextField new_collective_name;
@@ -41,5 +46,11 @@ public class LoadCollectiveController {
     @FXML
     void loadCollective(ActionEvent event) {
 
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        saved_list = new ListView<>(DBUtils.loadCollectives());
+        saved_list.setCellFactory(param -> new CollectiveListCell());
     }
 }

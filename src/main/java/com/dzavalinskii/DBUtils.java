@@ -1,5 +1,8 @@
 package com.dzavalinskii;
 
+import com.dzavalinskii.board_controller.Collective;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -25,12 +28,12 @@ public class DBUtils {
             psCheckNameCollision.setString(1, name);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.isBeforeFirst()) {
+            if (rs.next()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Коллектив с таким названием уже существует.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO collectives VALUES( ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO collectives (name, description) VALUES( ?, ?)");
                 psInsert.setString(1, name);
                 psInsert.setString(2, description);
                 psInsert.executeUpdate();
@@ -1197,5 +1200,40 @@ public class DBUtils {
                 }
             }
         }
+    }
+
+    public static ObservableList<Collective> loadCollectives() {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        ObservableList<Collective> collectives = FXCollections.observableArrayList();
+
+        try {
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            rs = statement.executeQuery("SELECT * FROM collectives");
+            while (rs.next()) {
+                collectives.add(new Collective(rs.getInt(1), rs.getString(2), rs.getString(3)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return collectives;
     }
 }
