@@ -1,6 +1,8 @@
 package com.dzavalinskii;
 
+import com.dzavalinskii.util_classes.Board;
 import com.dzavalinskii.util_classes.Collective;
+import com.dzavalinskii.util_classes.Person;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
@@ -15,20 +17,24 @@ public class DBUtils {
      * Метод для добавления нового коллектива в БД
      * @param name - имя нового коллектива
      * @param description - описание нового коллектива
+     * @return id нового коллектива
      */
-    public static void addCollective(String name, String description) {
+    public static int addCollective(String name, String description) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
-        ResultSet rs = null;
+        ResultSet rsCollision = null;
         PreparedStatement psInsert = null;
+        PreparedStatement psId = null;
+        ResultSet rsId = null;
+        int id = 0;
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM collectives WHERE name = ?");
             psCheckNameCollision.setString(1, name);
-            rs = psCheckNameCollision.executeQuery();
+            rsCollision = psCheckNameCollision.executeQuery();
 
-            if (rs.next()) {
+            if (rsCollision.next()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Коллектив с таким названием уже существует.");
                 alert.show();
@@ -37,14 +43,19 @@ public class DBUtils {
                 psInsert.setString(1, name);
                 psInsert.setString(2, description);
                 psInsert.executeUpdate();
+                psId = connection.prepareStatement("SELECT id FROM collectives WHERE name = ?");
+                psId.setString(1,name);
+                rsId = psId.executeQuery();
+                rsId.next();
+                id = rsId.getInt("id");
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            if (rs != null) {
+            if (rsCollision != null) {
                 try {
-                    rs.close();
+                    rsCollision.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -71,6 +82,7 @@ public class DBUtils {
                 }
             }
         }
+        return id;
     }
 
     /**
@@ -1203,6 +1215,77 @@ public class DBUtils {
     }
 
     public static ObservableList<Collective> loadCollectives() {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        ObservableList<Collective> collectives = FXCollections.observableArrayList();
+
+        try {
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            rs = statement.executeQuery("SELECT * FROM collectives");
+            while (rs.next()) {
+                collectives.add(new Collective(rs.getInt(1), rs.getString(2), rs.getString(3)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return collectives;
+    }
+
+    //TODO переделать под борды и персон
+    public static ObservableList<Board> loadBoards() {
+        Connection connection = null;
+        Statement statement = null;
+        ResultSet rs = null;
+        ObservableList<Collective> collectives = FXCollections.observableArrayList();
+
+        try {
+            connection = DriverManager.getConnection(jdbcURL);
+            statement = connection.createStatement();
+            rs = statement.executeQuery("SELECT * FROM boards");
+            while (rs.next()) {
+                collectives.add(new Collective(rs.getInt(1), rs.getString(2), rs.getString(3)));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                rs.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return collectives;
+    }
+
+    public static ObservableList<Person> loadPersons() {
         Connection connection = null;
         Statement statement = null;
         ResultSet rs = null;

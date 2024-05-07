@@ -9,30 +9,30 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class NewEpochController {
+public class NewBoardController {
 
     @FXML
-    private Button cancel_ne;
+    private Button cancel_nb;
 
     @FXML
-    private TextArea epoch_desc;
+    private TextArea board_desc;
 
     @FXML
-    private TextField epoch_name;
+    private TextField board_name;
 
     @FXML
-    private DatePicker epoch_timestamp;
+    private DatePicker board_timestamp;
 
     @FXML
-    private Button ok_ne;
+    private Button ok_nb;
 
     @FXML
-    void addNewEpoch(ActionEvent event) {
+    void addNewBoard(ActionEvent event) {
 
     }
 
     @FXML
-    void cancel_ne(ActionEvent actionEvent) {
+    void cancel(ActionEvent actionEvent) {
         Node n = (Node) actionEvent.getSource();
         Stage currentStage = (Stage) n.getScene().getWindow();
         currentStage.close();

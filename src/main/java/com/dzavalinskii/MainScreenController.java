@@ -10,6 +10,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -36,7 +37,7 @@ public class MainScreenController implements Initializable {
     @FXML
     void newEpochBtnClick(ActionEvent event) throws IOException {
         if (Main.currentCollectiveId != 0) {
-            Parent root = FXMLLoader.load(getClass().getResource("new_epoch.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("new_board.fxml"));
             Stage stage = new Stage();
             stage.setScene(new Scene(root));
             stage.show();
@@ -82,5 +83,21 @@ public class MainScreenController implements Initializable {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void loadCollective(MouseEvent mouseEvent) {
+        if (Main.currentCollectiveId == 0) {
+            return;
+        } else {
+
+        }
+    }
+
+    private void loadPersons() {
+
+    }
+
+    private void loadBoards() {
+
     }
 }

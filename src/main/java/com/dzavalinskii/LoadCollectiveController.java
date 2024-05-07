@@ -1,15 +1,16 @@
 package com.dzavalinskii;
 
-import com.dzavalinskii.DBUtils;
 import com.dzavalinskii.util_classes.Collective;
 import com.dzavalinskii.util_classes.CollectiveListCell;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -36,8 +37,10 @@ public class LoadCollectiveController implements Initializable {
 
     @FXML
     void createCollective(ActionEvent event) {
-        DBUtils.addCollective(new_collective_name.getText(), new_collective_desc.getText());
-        // Переход на экран редактора доделать
+        Main.currentCollectiveId = DBUtils.addCollective(new_collective_name.getText(), new_collective_desc.getText());
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
     }
 
     @FXML
