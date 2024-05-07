@@ -13,18 +13,18 @@ import java.sql.Statement;
 
 public class Main {
 
-    public static void main(String[] args) throws Exception {
+    /*public static void main(String[] args) throws Exception {
 
 
-        /*try (Connection connection = DriverManager.getConnection(jdbcURL)) {
+        try (Connection connection = DriverManager.getConnection(DBUtils.jdbcURL)) {
             Statement statement = connection.createStatement();
-            statement.executeUpdate("ALTER TABLE persons ADD COLUMN image BLOB");
+            statement.executeUpdate("ALTER TABLE collectives ADD COLUMN description VARCHAR(255)");
             System.out.println("success");
         } catch (SQLException e) {
             e.printStackTrace();
-        }*/
+        }
 
-    }
+    }*/
     public void start(Stage primaryStage) {
 
         try {

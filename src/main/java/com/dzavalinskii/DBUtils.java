@@ -1,6 +1,5 @@
 package com.dzavalinskii;
 
-import javafx.event.ActionEvent;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
@@ -11,11 +10,10 @@ public class DBUtils {
 
     /**
      * Метод для добавления нового коллектива в БД
-     * @param event - событие, вызвавшее метод
      * @param name - имя нового коллектива
      * @param description - описание нового коллектива
      */
-    public static void addCollective(ActionEvent event, String name, String description) {
+    public static void addCollective(String name, String description) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -38,7 +36,6 @@ public class DBUtils {
                 psInsert.executeUpdate();
             }
 
-            //TODO переход на экран редактора, event
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -75,12 +72,11 @@ public class DBUtils {
 
     /**
      * Метод для обновления данных коллектива.
-     * @param event - событие, вызвавшее метод.
      * @param oldName - старое имя коллектива
      * @param name - обновленное имя коллектива
      * @param description - обновленное описание коллектива
      */
-    public static void updateCollective(ActionEvent event, String oldName, String name, String description) {
+    public static void updateCollective( String oldName, String name, String description) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -141,10 +137,9 @@ public class DBUtils {
 
     /**
      * Метод для удаления коллектива из базы данных.
-     * @param event - событие, вызвавшее метод.
-     * @param name
+     * @param name - название удаляемого коллектива
      */
-    public static void deleteCollective(ActionEvent event, String name) {
+    public static void deleteCollective( String name) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
@@ -176,13 +171,12 @@ public class DBUtils {
 
     /**
      * Метод для добавления новой доски в БД.
-     * @param event - событие, вызвавшее метод
      * @param collectiveId - id коллектива, к которому относится доска
      * @param name - имя доски
      * @param description - описание доски
      * @param timestamp - временная отметка доски
      */
-    public static void addBoard(ActionEvent event, int collectiveId, String name, String description, long timestamp) {
+    public static void addBoard( int collectiveId, String name, String description, long timestamp) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -245,14 +239,13 @@ public class DBUtils {
 
     /**
      * Метод для обновления данных доски
-     * @param event - событие, вызвавшее метод
      * @param name - новое название доски
      * @param description - новое описание доски
      * @param timestamp - новая временная отметка доски
      * @param oldName - прошлое имя доски
      * @param collectiveId - id коллектива, содержащего доску
      */
-    public static void updateBoard(ActionEvent event, String name, String description, long timestamp, String oldName, int collectiveId) {
+    public static void updateBoard(String name, String description, long timestamp, String oldName, int collectiveId) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -317,11 +310,10 @@ public class DBUtils {
 
     /**
      * Метод для удаления доски из коллектива
-     * @param event - событие, вызвавшее метод
      * @param name - название удаляемой доски
      * @param collectiveId - id коллектива
      */
-    public static void deleteBoard(ActionEvent event, String name, int collectiveId) {
+    public static void deleteBoard(String name, int collectiveId) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
@@ -354,12 +346,11 @@ public class DBUtils {
 
     /**
      * Метод для добавления новой персоны в коллектив
-     * @param event - событие, вызвавшее метод
      * @param name - имя персоны
      * @param description - описание персоны
      * @param collectiveId - id коллектива, к которому относится персона
      */
-    public static void addPerson(ActionEvent event, String name, String description, int collectiveId) {
+    public static void addPerson( String name, String description, int collectiveId) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -421,13 +412,12 @@ public class DBUtils {
 
     /**
      * Метод для обновления данных персоны
-     * @param event - событие, вызвавшее метод
      * @param name - новое имя персоны
      * @param description - новое описание персоны
      * @param oldName - старое имя персоны
      * @param collectiveId - id коллектива персоны
      */
-    public static void updatePerson(ActionEvent event, String name, String description, String oldName, int collectiveId) {
+    public static void updatePerson( String name, String description, String oldName, int collectiveId) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -491,11 +481,10 @@ public class DBUtils {
 
     /**
      * Метод для удаления персоны с доски
-     * @param event - событие, вызвавшее метод
      * @param name - имя удаляемой персоны
      * @param collectiveId - id коллектива удаляемой персоны
      */
-    public static void deletePerson(ActionEvent event, String name, int collectiveId) {
+    public static void deletePerson( String name, int collectiveId) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
@@ -528,11 +517,10 @@ public class DBUtils {
 
     /**
      * Метод для добавления представления персоны на доску
-     * @param event - событие, вызвавшее метод
      * @param boardId - id доски
      * @param personId - id персоны
      */
-    public static void addPersonInfo(ActionEvent event, int boardId, int personId) {
+    public static void addPersonInfo( int boardId, int personId) {
         Connection connection = null;
         PreparedStatement psCheckPersonDuplication = null;
         ResultSet rs = null;
@@ -593,12 +581,11 @@ public class DBUtils {
 
     /**
      * Метод, обновляющий координаты персоны на доске
-     * @param event - событие, вызвавшее метод
      * @param x - координата x представления персоны на координатной сетке доски
      * @param y - координата y представления персоны на координатной сетке доски
      * @param id - идентификатор строки таблицы personInfo
      */
-    public static void updatePersonInfo(ActionEvent event, int x, int y, int id) {
+    public static void updatePersonInfo( int x, int y, int id) {
         Connection connection = null;
         PreparedStatement psUpdate = null;
 
@@ -633,10 +620,9 @@ public class DBUtils {
 
     /**
      * Метод для удаления представления персоны с доски
-     * @param event - событие, вызвавшее метод
      * @param id - id представления персоны
      */
-    public static void deletePersonInfo(ActionEvent event, int id) {
+    public static void deletePersonInfo( int id) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
@@ -668,14 +654,13 @@ public class DBUtils {
 
     /**
      * Метод для добавления нового вида связи между персонами
-     * @param event - событие, вызвавшее метод
      * @param color - цвет связи в виде [r,g,b]
      * @param name - название связи
      * @param linetype - тип линии связи (сплошная, пунктир, точечная, пунктир-точка)
      * @param twosided - маркер наличия стрелки на связи
      * @param collectiveId - id коллектива
      */
-    public static void addLinkType(ActionEvent event, String color, String name, String linetype, boolean twosided, int collectiveId) {
+    public static void addLinkType( String color, String name, String linetype, boolean twosided, int collectiveId) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -739,7 +724,6 @@ public class DBUtils {
 
     /**
      * Метод для обновления вида связи между двумя персонами
-     * @param event - событие, вызвавшее метод
      * @param color - новый цвет связи
      * @param twosided - обновленный маркер наличия стрелки на связи
      * @param name - обновленное имя связи
@@ -747,7 +731,7 @@ public class DBUtils {
      * @param oldName - старое имя связи
      * @param collectiveId - id коллектива
      */
-    public static void updateLinkType(ActionEvent event, String color, boolean twosided, String name, String linetype, String oldName, int collectiveId) {
+    public static void updateLinkType( String color, boolean twosided, String name, String linetype, String oldName, int collectiveId) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -813,11 +797,10 @@ public class DBUtils {
 
     /**
      * Метод для удаления типа связей с доски
-     * @param event - событие, вызвавшее метод
      * @param name - название типа связей
      * @param collectiveId - id коллектива
      */
-    public static void deleteLinkType(ActionEvent event, String name, int collectiveId) {
+    public static void deleteLinkType( String name, int collectiveId) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
@@ -850,13 +833,12 @@ public class DBUtils {
 
     /**
      * Метод для добавления новой связи на доску и в БД
-     * @param event - событие, вызвавшее метод
      * @param boardId - идентификатор доски
      * @param linkTypeId - идентификатор типа связи
      * @param person1 - идентификатор персоны, от которой идет связь
      * @param person2 - идентификатор персоны, к которой идет связь
      */
-    public static void addLink(ActionEvent event, int boardId, int linkTypeId, int person1, int person2) {
+    public static void addLink( int boardId, int linkTypeId, int person1, int person2) {
         Connection connection = null;
         PreparedStatement psCheckDuplication = null;
         ResultSet rs = null;
@@ -921,10 +903,9 @@ public class DBUtils {
 
     /**
      * Метод для удаления связи с доски
-     * @param event - событие, вызвавшее метод
      * @param id - идентификатор удаляемой связи
      */
-    public static void deleteLink(ActionEvent event, int id) {
+    public static void deleteLink( int id) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
@@ -956,11 +937,10 @@ public class DBUtils {
 
     /**
      * Метод для добавления тега в список тегов коллектива
-     * @param event - событие, вызвавшее метод
      * @param name - название тега
      * @param collectiveId - идентификатор коллектива
      */
-    public static void addTag(ActionEvent event, String name, int collectiveId) {
+    public static void addTag( String name, int collectiveId) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -1020,12 +1000,11 @@ public class DBUtils {
 
     /**
      * Метод, позволяющий изменить тег
-     * @param event - событие, вызвавшее метод
      * @param name - новый тег
      * @param oldName - старый тег
      * @param collectiveId - идентификатор коллектива
      */
-    public static void updateTag(ActionEvent event, String name, String oldName, int collectiveId) {
+    public static void updateTag( String name, String oldName, int collectiveId) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -1087,11 +1066,10 @@ public class DBUtils {
 
     /**
      * Метод для удаления тега из коллектива
-     * @param event - событие, вызвавшее метод
      * @param name - удаляемый тег
      * @param collectiveId - идентификатор коллектива
      */
-    public static void deleteTag(ActionEvent event, String name, int collectiveId) {
+    public static void deleteTag( String name, int collectiveId) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
@@ -1124,11 +1102,10 @@ public class DBUtils {
 
     /**
      * Метод для присвоения тега представлению персоны
-     * @param event - событие, вызвавшее метод
      * @param personInfoId - идентификатор представления персоны на какой-то из досок
      * @param TagId - идентификатор тега
      */
-    public static void addTagPerson(ActionEvent event, int personInfoId, int TagId) {
+    public static void addTagPerson( int personInfoId, int TagId) {
         Connection connection = null;
         PreparedStatement psCheckDuplication = null;
         ResultSet rs = null;
@@ -1186,7 +1163,12 @@ public class DBUtils {
         }
     }
 
-    public static void deleteTagPerson(ActionEvent event, int TagId, int personInfoId) {
+    /**
+     * Метод для удаления тега у представления персоны на доске
+     * @param TagId - идентификатор тега
+     * @param personInfoId - идентификатор персоны
+     */
+    public static void deleteTagPerson( int TagId, int personInfoId) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
