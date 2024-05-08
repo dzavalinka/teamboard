@@ -8,7 +8,7 @@ public class Board implements Comparable<Board> {
     public final int collectiveId;
     private SimpleStringProperty name;
     private SimpleStringProperty description;
-    private Date timestamp;
+    private long timestamp;
 
     public final int id;
 
@@ -36,15 +36,15 @@ public class Board implements Comparable<Board> {
         this.description.set(description);
     }
 
-    public Date getTimestamp() {
+    public long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(long timestamp) {
         this.timestamp = timestamp;
     }
 
-    public Board(int collectiveId, String name, String description, Date timestamp, int id) {
+    public Board(int collectiveId, String name, String description, long timestamp, int id) {
         this.collectiveId = collectiveId;
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
@@ -54,6 +54,6 @@ public class Board implements Comparable<Board> {
 
     @Override
     public int compareTo(Board o) {
-        return this.timestamp.compareTo(o.timestamp);
+        return (int) (this.timestamp - o.timestamp);
     }
 }

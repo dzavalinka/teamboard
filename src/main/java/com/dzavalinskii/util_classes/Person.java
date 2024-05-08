@@ -7,8 +7,8 @@ public class Person {
     private SimpleStringProperty name;
     private SimpleStringProperty description;
     private Image avatar;
-    public final int id;
-    private static int counter;
+    public int id;
+    private int collectiveId;
 
     public String getName() {
         return name.get();
@@ -26,10 +26,11 @@ public class Person {
         this.description.set(description);
     }
 
-    public Person(String name, String description) {
+    public Person(int id, String name, String description, int collectiveId) {
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
-        this.id = counter;
-        counter++;
+        this.id = id;
+        this.collectiveId = collectiveId;
+
     }
 }

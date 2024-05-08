@@ -49,14 +49,16 @@ public class LoadCollectiveController implements Initializable {
         saved_list.setItems(DBUtils.loadCollectives());
     }
 
-    @FXML
-    void loadCollective(ActionEvent event) {
 
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         saved_list.setItems(DBUtils.loadCollectives());
         saved_list.setCellFactory(param -> new CollectiveListCell());
+    }
+
+    @FXML
+    void loadCollective(ActionEvent event) {
+
     }
 }

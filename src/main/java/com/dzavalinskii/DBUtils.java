@@ -275,7 +275,7 @@ public class DBUtils {
 
             if (rs.isBeforeFirst() && oldName.compareTo(name) != 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Доска с таким названием уже существует.");
+                alert.setContentText("Доска с таким названием уже существует в этом коллективе.");
                 alert.show();
             } else {
                 psUpdate = connection.prepareStatement("UPDATE boards SET name = ?, description = ?, timestamp = ? " +
@@ -447,7 +447,7 @@ public class DBUtils {
 
             if (rs.isBeforeFirst() && oldName.compareTo(name) != 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Персона с таким именем уже существует.");
+                alert.setContentText("Персона с таким именем уже существует в этом коллективе.");
                 alert.show();
             } else {
                 psUpdate = connection.prepareStatement("UPDATE persons SET name = ?, description = ? " +
@@ -761,7 +761,7 @@ public class DBUtils {
 
             if (rs.isBeforeFirst() && oldName.compareTo(name) != 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setContentText("Тип связи с таким названием уже существует.");
+                alert.setContentText("Вид связи с таким названием уже существует в этом коллективе.");
                 alert.show();
             } else {
                 psUpdate = connection.prepareStatement("UPDATE linktypes SET color = ?, name = ?, linetype = ?, twosided = ? " +
@@ -811,21 +811,21 @@ public class DBUtils {
     }
 
     /**
-     * Метод для удаления типа связей с доски
-     * @param name - название типа связей
-     * @param collectiveId - id коллектива
+     * Метод для удаления типа связей с доски.
+     * @param linkTypeId - идентификатор удаляемого типа связей.
      */
-    public static void deleteLinkType( String name, int collectiveId) {
+    public static void deleteLinkType(int linkTypeId) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
-            psDelete = connection.prepareStatement("DELETE FROM linktypes WHERE name = ? AND collectiveId = ?");
-            psDelete.setString(1, name);
-            psDelete.setInt(2, collectiveId);
+            psDelete = connection.prepareStatement("DELETE FROM links WHERE linkTypeId = ?");
+            psDelete.setInt(1, linkTypeId);
             psDelete.executeUpdate();
-            //TODO удаление всех линков такого вида на доске
+            psDelete = connection.prepareStatement("DELETE FROM linktypes WHERE linkTypeId = ?");
+            psDelete.setInt(1, linkTypeId);
+            psDelete.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -1249,19 +1249,19 @@ public class DBUtils {
         return collectives;
     }
 
-    //TODO переделать под борды и персон
     public static ObservableList<Board> loadBoards() {
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         ResultSet rs = null;
-        ObservableList<Collective> collectives = FXCollections.observableArrayList();
+        ObservableList<Board> boards = FXCollections.observableArrayList();
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
-            statement = connection.createStatement();
-            rs = statement.executeQuery("SELECT * FROM boards");
+            statement = connection.prepareStatement("SELECT * FROM boards WHERE collectiveId = ?");
+            statement.setInt(1, Main.currentCollectiveId);
+            rs = statement.executeQuery();
             while (rs.next()) {
-                collectives.add(new Collective(rs.getInt(1), rs.getString(2), rs.getString(3)));
+                boards.add(new Board(rs.getInt(1), rs.getString(3), rs.getString(4), rs.getLong(5), rs.getInt(2)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1282,21 +1282,22 @@ public class DBUtils {
                 e.printStackTrace();
             }
         }
-        return collectives;
+        return boards;
     }
 
     public static ObservableList<Person> loadPersons() {
         Connection connection = null;
-        Statement statement = null;
+        PreparedStatement statement = null;
         ResultSet rs = null;
-        ObservableList<Collective> collectives = FXCollections.observableArrayList();
+        ObservableList<Person> persons = FXCollections.observableArrayList();
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
-            statement = connection.createStatement();
-            rs = statement.executeQuery("SELECT * FROM collectives");
+            statement = connection.prepareStatement("SELECT * FROM persons WHERE collectiveId = ?");
+            statement.setInt(1, Main.currentCollectiveId);
+            rs = statement.executeQuery();
             while (rs.next()) {
-                collectives.add(new Collective(rs.getInt(1), rs.getString(2), rs.getString(3)));
+                persons.add(new Person(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getInt(4)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1317,6 +1318,6 @@ public class DBUtils {
                 e.printStackTrace();
             }
         }
-        return collectives;
+        return persons;
     }
 }
