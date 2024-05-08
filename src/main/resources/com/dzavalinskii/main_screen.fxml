@@ -15,14 +15,14 @@
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
             <Button fx:id="add_person_button" mnemonicParsing="false" onAction="#newPersonBtnClick" prefWidth="100.0" text="Добавить персону" textAlignment="CENTER" wrapText="true" />
-            <ListView fx:id="persons_list" prefHeight="200.0" prefWidth="200.0" />
+            <ListView fx:id="persons_list" prefHeight="570.0" prefWidth="100.0" />
          </children></VBox>
    </left>
    <right>
       <VBox alignment="TOP_CENTER" prefHeight="200.0" prefWidth="100.0" BorderPane.alignment="CENTER">
          <children>
-            <Button fx:id="add_epoch_button" mnemonicParsing="false" onAction="#newEpochBtnClick" text="Добавить эпоху" textAlignment="CENTER" wrapText="true" />
-            <ListView fx:id="epoch_list" prefHeight="200.0" prefWidth="200.0" />
+            <Button fx:id="add_board_button" mnemonicParsing="false" onAction="#newBoardBtnClick" prefHeight="47.0" prefWidth="100.0" text="Добавить доску" textAlignment="CENTER" wrapText="true" />
+            <ListView fx:id="board_list" prefHeight="574.0" prefWidth="100.0" />
          </children></VBox>
    </right>
    <bottom>

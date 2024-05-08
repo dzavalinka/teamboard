@@ -115,7 +115,6 @@ public class DBUtils {
                 psUpdate.executeUpdate();
             }
 
-            //TODO возврат к списку коллективов и его обновление, event
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -151,22 +150,53 @@ public class DBUtils {
     }
 
     /**
-     * Метод для удаления коллектива из базы данных.
-     * @param name - название удаляемого коллектива
+     * Метод для удаления коллектива и всех его данных из базы данных.
+     * @param id - идентификатор удаляемого коллектива
      */
-    public static void deleteCollective( String name) {
+    public static void deleteCollective(int id) {
         Connection connection = null;
         PreparedStatement psDelete = null;
+        ResultSet rs = null;
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
+            psDelete = connection.prepareStatement("SELECT id FROM boards WHERE collectiveId = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                deleteBoard(rs.getInt("id"));
+            }
+            psDelete = connection.prepareStatement("SELECT id FROM persons WHERE collectiveId = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                deletePerson(rs.getInt("id"));
+            }
+            psDelete = connection.prepareStatement("SELECT id FROM linkTypes WHERE collectiveId = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                deleteLinkType(rs.getInt("id"));
+            }
+            psDelete = connection.prepareStatement("SELECT id FROM tags WHERE collectiveId = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                deleteTag(rs.getInt("id"));
+            }
             psDelete = connection.prepareStatement("DELETE FROM collectives WHERE name = ?");
-            psDelete.setString(1, name);
+            psDelete.setInt(1, id);
             psDelete.executeUpdate();
-            //TODO возврат к списку коллективов и его обновление, event, удаление борд, персон и всего связанного с коллективом
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
             if (psDelete != null) {
                 try {
                     psDelete.close();
@@ -217,7 +247,6 @@ public class DBUtils {
                 psInsert.setLong(4, timestamp);
                 psInsert.executeUpdate();
             }
-            //TODO переход на экран редактора новой доски, event
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -288,7 +317,6 @@ public class DBUtils {
                 psUpdate.executeUpdate();
             }
 
-            //TODO возврат к редактору доски с обновлением текущих данных, event
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -324,24 +352,44 @@ public class DBUtils {
     }
 
     /**
-     * Метод для удаления доски из коллектива
-     * @param name - название удаляемой доски
-     * @param collectiveId - id коллектива
+     * Метод для удаления доски и всего с ней связанного из коллектива
+     * @param id - идентификатор доски
      */
-    public static void deleteBoard(String name, int collectiveId) {
+    public static void deleteBoard(int id) {
         Connection connection = null;
         PreparedStatement psDelete = null;
+        ResultSet rs = null;
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
-            psDelete = connection.prepareStatement("DELETE FROM boards WHERE name = ? AND collectiveId = ?");
-            psDelete.setString(1, name);
-            psDelete.setInt(2, collectiveId);
+
+            psDelete = connection.prepareStatement("SELECT id FROM links WHERE boardId = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                deleteLink(rs.getInt("id"));
+            }
+
+            psDelete = connection.prepareStatement("SELECT id FROM personInfo WHERE boardId = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                deletePersonInfo(rs.getInt("id"));
+            }
+
+            psDelete = connection.prepareStatement("DELETE FROM boards WHERE id = ?");
+            psDelete.setInt(1, id);
             psDelete.executeUpdate();
-            //TODO возврат к редактору борд, удаление линков этой борды из бд, удаление personinfo борды из бд, PersonTag борды
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
             if (psDelete != null) {
                 try {
                     psDelete.close();
@@ -390,7 +438,7 @@ public class DBUtils {
                 psInsert.setInt(3, collectiveId);
                 psInsert.executeUpdate();
             }
-            //TODO переход на экран редактора доски с обновлением списка персон, event
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -459,7 +507,7 @@ public class DBUtils {
                 psUpdate.executeUpdate();
             }
 
-            //TODO возврат к редактору доски с обновлением текущих данных, event, прикрутить image
+            //TODO image
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -496,23 +544,51 @@ public class DBUtils {
 
     /**
      * Метод для удаления персоны с доски
-     * @param name - имя удаляемой персоны
-     * @param collectiveId - id коллектива удаляемой персоны
+     * @param id - идентификатор персоны
      */
-    public static void deletePerson( String name, int collectiveId) {
+    public static void deletePerson(int id) {
         Connection connection = null;
         PreparedStatement psDelete = null;
+        ResultSet rs = null;
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
-            psDelete = connection.prepareStatement("DELETE FROM persons WHERE name = ? AND collectiveId = ?");
-            psDelete.setString(1, name);
-            psDelete.setInt(2, collectiveId);
+
+            psDelete = connection.prepareStatement("SELECT id FROM links WHERE person1 = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                deleteLink(rs.getInt("id"));
+            }
+
+            psDelete = connection.prepareStatement("SELECT id FROM links WHERE person2 = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                deleteLink(rs.getInt("id"));
+            }
+
+            psDelete = connection.prepareStatement("SELECT id FROM personInfo WHERE personId = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                deletePersonInfo(rs.getInt("id"));
+            }
+
+            psDelete = connection.prepareStatement("DELETE FROM persons WHERE id = ?");
+            psDelete.setInt(1, id);
             psDelete.executeUpdate();
-            //TODO возврат к редактору борд, удаление линков этой персоны из бд, удаление personinfo персоны из бд, PersonTag борды
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
             if (psDelete != null) {
                 try {
                     psDelete.close();
@@ -612,7 +688,7 @@ public class DBUtils {
             psUpdate.setInt(3, id);
             psUpdate.executeUpdate();
 
-            //TODO автообновление отображений линков
+            //TODO автообновление отображений линков, прикрутить на onDragDropped
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -639,20 +715,62 @@ public class DBUtils {
      */
     public static void deletePersonInfo( int id) {
         Connection connection = null;
+        Connection conn2 = null;
         PreparedStatement psDelete = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
+            conn2 = DriverManager.getConnection(jdbcURL);
+
+            psDelete = connection.prepareStatement("SELECT id FROM TagPerson WHERE id = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                deleteTagPerson(rs.getInt("id"));
+            }
+
+            psDelete = connection.prepareStatement("SELECT personId FROM personInfo WHERE id = ?");
+            psDelete.setInt(1, id);
+            rs = psDelete.executeQuery();
+            while (rs.next()) {
+                ps = conn2.prepareStatement("DELETE FROM links WHERE person1 = ? OR person2 = ?");
+                ps.setInt(1, rs.getInt("personId"));
+                ps.setInt(2, rs.getInt("personId"));
+                ps.executeUpdate();
+            }
+
             psDelete = connection.prepareStatement("DELETE FROM personInfo WHERE id = ?");
             psDelete.setInt(1, id);
             psDelete.executeUpdate();
-            //TODO удаление линков с доски и из бд, очистка TagPerson
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
             if (psDelete != null) {
                 try {
                     psDelete.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn2 != null) {
+                try {
+                    conn2.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -702,7 +820,6 @@ public class DBUtils {
                 psInsert.setInt(5, collectiveId);
                 psInsert.executeUpdate();
             }
-            //TODO переход на экран редактора доски, закрытие экрана нового вида связи, event
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -823,7 +940,7 @@ public class DBUtils {
             psDelete = connection.prepareStatement("DELETE FROM links WHERE linkTypeId = ?");
             psDelete.setInt(1, linkTypeId);
             psDelete.executeUpdate();
-            psDelete = connection.prepareStatement("DELETE FROM linktypes WHERE linkTypeId = ?");
+            psDelete = connection.prepareStatement("DELETE FROM linktypes WHERE id = ?");
             psDelete.setInt(1, linkTypeId);
             psDelete.executeUpdate();
         } catch (SQLException e) {
@@ -929,7 +1046,7 @@ public class DBUtils {
             psDelete = connection.prepareStatement("DELETE FROM links WHERE id = ?");
             psDelete.setInt(1, id);
             psDelete.executeUpdate();
-            //TODO удаление линка с доски
+            //TODO удаление отрисованного линка с доски
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -1081,18 +1198,16 @@ public class DBUtils {
 
     /**
      * Метод для удаления тега из коллектива
-     * @param name - удаляемый тег
-     * @param collectiveId - идентификатор коллектива
+     * @param id - идентификатор тега
      */
-    public static void deleteTag( String name, int collectiveId) {
+    public static void deleteTag(int id) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
             psDelete = connection.prepareStatement("DELETE FROM tags WHERE name = ? AND collectiveId = ?");
-            psDelete.setString(1, name);
-            psDelete.setInt(2, collectiveId);
+            psDelete.setInt(1, id);
             psDelete.executeUpdate();
             //TODO почистить TagPerson
         } catch (SQLException e) {
@@ -1180,18 +1295,16 @@ public class DBUtils {
 
     /**
      * Метод для удаления тега у представления персоны на доске
-     * @param TagId - идентификатор тега
-     * @param personInfoId - идентификатор персоны
+     * @param id - идентификатор TagPerson
      */
-    public static void deleteTagPerson( int TagId, int personInfoId) {
+    public static void deleteTagPerson( int id) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
-            psDelete = connection.prepareStatement("DELETE FROM TagPerson WHERE TagId = ? AND personInfoId = ?");
-            psDelete.setInt(1, TagId);
-            psDelete.setInt(2, personInfoId);
+            psDelete = connection.prepareStatement("DELETE FROM TagPerson WHERE id = ?");
+            psDelete.setInt(1, id);
             psDelete.executeUpdate();
 
         } catch (SQLException e) {

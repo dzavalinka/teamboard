@@ -45,7 +45,7 @@ public class LoadCollectiveController implements Initializable {
 
     @FXML
     void deleteSelectedCollective(ActionEvent event) {
-        DBUtils.deleteCollective(saved_list.getSelectionModel().getSelectedItem().getName());
+        DBUtils.deleteCollective(saved_list.getSelectionModel().getSelectedItem().id);
         saved_list.setItems(DBUtils.loadCollectives());
     }
 
@@ -59,6 +59,9 @@ public class LoadCollectiveController implements Initializable {
 
     @FXML
     void loadCollective(ActionEvent event) {
-
+        Main.currentCollectiveId = saved_list.getSelectionModel().getSelectedItem().id;
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
     }
 }

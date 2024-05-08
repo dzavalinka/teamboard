@@ -1,5 +1,7 @@
 package com.dzavalinskii;
 
+import com.dzavalinskii.util_classes.Board;
+import com.dzavalinskii.util_classes.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,7 +22,7 @@ import java.util.ResourceBundle;
 public class MainScreenController implements Initializable {
 
     @FXML
-    private Button add_epoch_button;
+    private Button add_board_button;
 
     @FXML
     private Button add_person_button;
@@ -29,13 +31,13 @@ public class MainScreenController implements Initializable {
     private ScrollPane board_space;
 
     @FXML
-    private ListView<?> epoch_list;
+    private ListView<Board> board_list;
 
     @FXML
-    private ListView<?> persons_list;
+    private ListView<Person> persons_list;
 
     @FXML
-    void newEpochBtnClick(ActionEvent event) throws IOException {
+    public void newBoardBtnClick(ActionEvent event) throws  IOException {
         if (Main.currentCollectiveId != 0) {
             Parent root = FXMLLoader.load(getClass().getResource("new_board.fxml"));
             Stage stage = new Stage();
@@ -89,15 +91,10 @@ public class MainScreenController implements Initializable {
         if (Main.currentCollectiveId == 0) {
             return;
         } else {
-
+            board_list.setItems(DBUtils.loadBoards());
+            persons_list.setItems(DBUtils.loadPersons());
         }
     }
 
-    private void loadPersons() {
 
-    }
-
-    private void loadBoards() {
-
-    }
 }
