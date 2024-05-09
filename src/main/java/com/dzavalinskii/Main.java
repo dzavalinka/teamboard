@@ -15,6 +15,7 @@ import java.sql.Statement;
 public class Main extends Application {
 
     public static int currentCollectiveId = 0;
+    public static int currentBoardId = 0;
 
     public void start(Stage primaryStage) {
 

@@ -5,7 +5,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import org.controlsfx.control.CheckComboBox?>
 
 <TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Новая персона" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dzavalinskii.NewPersonController">
   <content>
@@ -17,8 +16,6 @@
             <TextField fx:id="new_person_name" layoutX="359.0" layoutY="61.0" AnchorPane.rightAnchor="100.0" />
             <Label layoutX="47.0" layoutY="108.0" text="Введите описание персоны" AnchorPane.leftAnchor="100.0" />
             <TextField fx:id="new_person_desc" layoutX="359.0" layoutY="104.0" AnchorPane.rightAnchor="100.0" />
-            <CheckComboBox fx:id="new_person_taglist" layoutX="408.0" layoutY="161.0" AnchorPane.rightAnchor="100.0" />
-            <Label layoutX="60.0" layoutY="165.0" text="Выберите теги для персоны" AnchorPane.leftAnchor="100.0" />
          </children></AnchorPane>
   </content>
 </TitledPane>

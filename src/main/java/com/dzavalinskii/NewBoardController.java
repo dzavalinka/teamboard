@@ -9,6 +9,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+import java.util.Date;
+
 public class NewBoardController {
 
     @FXML
@@ -28,12 +30,16 @@ public class NewBoardController {
 
     @FXML
     void addNewBoard(ActionEvent event) {
-
+        Date date = new Date(board_timestamp.getValue().toEpochDay());
+        DBUtils.addBoard(Main.currentCollectiveId, board_name.getText(), board_desc.getText(), date.getTime());
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
     }
 
     @FXML
-    void cancel(ActionEvent actionEvent) {
-        Node n = (Node) actionEvent.getSource();
+    void cancel(ActionEvent event) {
+        Node n = (Node) event.getSource();
         Stage currentStage = (Stage) n.getScene().getWindow();
         currentStage.close();
     }

@@ -37,16 +37,21 @@ public class LoadCollectiveController implements Initializable {
 
     @FXML
     void createCollective(ActionEvent event) {
-        Main.currentCollectiveId = DBUtils.addCollective(new_collective_name.getText(), new_collective_desc.getText());
-        Node n = (Node) event.getSource();
-        Stage currentStage = (Stage) n.getScene().getWindow();
-        currentStage.close();
+        if (new_collective_name.getText().compareTo("") != 0) {
+            Main.currentCollectiveId = DBUtils.addCollective(new_collective_name.getText(), new_collective_desc.getText());
+            Node n = (Node) event.getSource();
+            Stage currentStage = (Stage) n.getScene().getWindow();
+            currentStage.close();
+        }
     }
 
     @FXML
     void deleteSelectedCollective(ActionEvent event) {
-        DBUtils.deleteCollective(saved_list.getSelectionModel().getSelectedItem().id);
-        saved_list.setItems(DBUtils.loadCollectives());
+        if (saved_list.getSelectionModel().getSelectedItem() != null) {
+            DBUtils.deleteCollective(saved_list.getSelectionModel().getSelectedItem().id);
+            saved_list.setItems(DBUtils.loadCollectives());
+            saved_list.setCellFactory(param -> new CollectiveListCell());
+        }
     }
 
 

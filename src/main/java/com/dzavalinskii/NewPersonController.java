@@ -6,7 +6,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import org.controlsfx.control.CheckComboBox;
 
 public class NewPersonController {
 
@@ -20,14 +19,14 @@ public class NewPersonController {
     private TextField new_person_name;
 
     @FXML
-    private CheckComboBox<?> new_person_taglist;
-
-    @FXML
     private Button ok_np;
 
     @FXML
     void addNewPerson(ActionEvent event) {
-
+        DBUtils.addPerson(new_person_name.getText(), new_person_desc.getText(), Main.currentCollectiveId);
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
     }
 
     @FXML

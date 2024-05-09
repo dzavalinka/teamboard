@@ -103,7 +103,7 @@ public class DBUtils {
             psCheckNameCollision.setString(1, name);
             rs = psCheckNameCollision.executeQuery();
 
-            if (oldName.compareTo(name)!=0 && rs.isBeforeFirst()) {
+            if (oldName.compareTo(name)!=0 && rs.next()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Коллектив с таким названием уже существует.");
                 alert.show();
@@ -184,10 +184,11 @@ public class DBUtils {
             while (rs.next()) {
                 deleteTag(rs.getInt("id"));
             }
-            psDelete = connection.prepareStatement("DELETE FROM collectives WHERE name = ?");
+            psDelete = connection.prepareStatement("DELETE FROM collectives WHERE id = ?");
             psDelete.setInt(1, id);
             psDelete.executeUpdate();
         } catch (SQLException e) {
+            System.out.println("1");
             e.printStackTrace();
         } finally {
             if (rs != null) {
@@ -235,12 +236,13 @@ public class DBUtils {
             psCheckNameCollision.setInt(2, collectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.isBeforeFirst()) {
+            if (rs.next()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Доска с таким названием уже существует в этом коллективе.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO boards VALUES( ?, ?, ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO boards (collectiveId, name, description, timestamp)" +
+                        " VALUES( ?, ?, ?, ?)");
                 psInsert.setInt(1, collectiveId);
                 psInsert.setString(2, name);
                 psInsert.setString(3, description);
@@ -302,7 +304,7 @@ public class DBUtils {
             psCheckNameCollision.setInt(2, collectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.isBeforeFirst() && oldName.compareTo(name) != 0) {
+            if (rs.next() && oldName.compareTo(name) != 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Доска с таким названием уже существует в этом коллективе.");
                 alert.show();
@@ -427,12 +429,13 @@ public class DBUtils {
             psCheckNameCollision.setInt(2, collectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.isBeforeFirst()) {
+            if (rs.next()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Персона с таким именем уже существует в этом коллективе.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO persons VALUES( ?, ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO persons (name, description, collectiveId)" +
+                        " VALUES( ?, ?, ?)");
                 psInsert.setString(1, name);
                 psInsert.setString(2, description);
                 psInsert.setInt(3, collectiveId);
@@ -493,7 +496,7 @@ public class DBUtils {
             psCheckNameCollision.setInt(2, collectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.isBeforeFirst() && oldName.compareTo(name) != 0) {
+            if (rs.next() && oldName.compareTo(name) != 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Персона с таким именем уже существует в этом коллективе.");
                 alert.show();
@@ -625,12 +628,13 @@ public class DBUtils {
             psCheckPersonDuplication.setInt(2, personId);
             rs = psCheckPersonDuplication.executeQuery();
 
-            if (rs.isBeforeFirst()) {
+            if (rs.next()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Персона уже на доске.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO personInfo VALUES( ?, ?, 0, 0)");
+                psInsert = connection.prepareStatement("INSERT INTO personInfo (boardId, personId, x, y)" +
+                        " VALUES( ?, ?, 0, 0)");
                 psInsert.setInt(1, boardId);
                 psInsert.setInt(2, personId);
                 psInsert.executeUpdate();
@@ -807,12 +811,13 @@ public class DBUtils {
             psCheckNameCollision.setInt(2, collectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.isBeforeFirst()) {
+            if (rs.next()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Вид связи с таким названием уже существует в этом коллективе.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO linktypes VALUES( ?, ?, ?, ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO linktypes (color, name, linetype, twosided, collectiveId)" +
+                        " VALUES( ?, ?, ?, ?, ?)");
                 psInsert.setString(1, color);
                 psInsert.setString(2, name);
                 psInsert.setString(3, linetype);
@@ -876,7 +881,7 @@ public class DBUtils {
             psCheckNameCollision.setInt(2, collectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.isBeforeFirst() && oldName.compareTo(name) != 0) {
+            if (rs.next() && oldName.compareTo(name) != 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Вид связи с таким названием уже существует в этом коллективе.");
                 alert.show();
@@ -986,12 +991,13 @@ public class DBUtils {
             psCheckDuplication.setInt(4, linkTypeId);
             rs = psCheckDuplication.executeQuery();
 
-            if (rs.isBeforeFirst()) {
+            if (rs.next()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Связь уже существует.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO links VALUES( ?, ?, ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO links (boardId, linkTypeId, person1, person2)" +
+                        " VALUES( ?, ?, ?, ?)");
                 psInsert.setInt(1, boardId);
                 psInsert.setInt(2, linkTypeId);
                 psInsert.setInt(3, person1);
@@ -1085,12 +1091,13 @@ public class DBUtils {
             psCheckNameCollision.setInt(2, collectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.isBeforeFirst()) {
+            if (rs.next()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Тег с таким названием уже существует.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO tags VALUES( ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO tags (name, collectiveId) " +
+                        "VALUES( ?, ?)");
                 psInsert.setString(1, name);
                 psInsert.setInt(2, collectiveId);
                 psInsert.executeUpdate();
@@ -1149,7 +1156,7 @@ public class DBUtils {
             psCheckNameCollision.setInt(2, collectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.isBeforeFirst() && oldName.compareTo(name) != 0) {
+            if (rs.next() && oldName.compareTo(name) != 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Такой тег уже существует.");
                 alert.show();
@@ -1206,7 +1213,9 @@ public class DBUtils {
 
         try {
             connection = DriverManager.getConnection(jdbcURL);
-            psDelete = connection.prepareStatement("DELETE FROM tags WHERE name = ? AND collectiveId = ?");
+            psDelete = connection.prepareStatement("DELETE FROM TagPerson WHERE TagId = ?");
+            psDelete.setInt(1, id);
+            psDelete = connection.prepareStatement("DELETE FROM tags WHERE id = ?");
             psDelete.setInt(1, id);
             psDelete.executeUpdate();
             //TODO почистить TagPerson
@@ -1248,12 +1257,13 @@ public class DBUtils {
             psCheckDuplication.setInt(2, TagId);
             rs = psCheckDuplication.executeQuery();
 
-            if (rs.isBeforeFirst()) {
+            if (rs.next()) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Такой тег уже есть у персоны.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO TagPerson VALUES( ?, ?)");
+                psInsert = connection.prepareStatement("INSERT INTO TagPerson (personInfoId, TagId)" +
+                        " VALUES( ?, ?)");
                 psInsert.setInt(1, personInfoId);
                 psInsert.setInt(2, TagId);
                 psInsert.executeUpdate();
