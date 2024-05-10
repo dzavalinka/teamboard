@@ -3,17 +3,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<TitledPane animated="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" text="Новый тег" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dzavalinskii.NewTagController">
-  <content>
-    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-         <children>
-            <Button fx:id="cancel_nt" cancelButton="true" layoutX="97.0" layoutY="295.0" mnemonicParsing="false" onAction="#cancel" text="Отмена" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="100.0" />
-            <Button fx:id="ok_nt" defaultButton="true" layoutX="422.0" layoutY="295.0" mnemonicParsing="false" onAction="#addTag" text="ОК" AnchorPane.bottomAnchor="50.0" AnchorPane.rightAnchor="100.0" />
-            <TextField fx:id="tag_name" layoutX="362.0" layoutY="107.0" AnchorPane.rightAnchor="100.0" />
-            <Label layoutX="50.0" layoutY="111.0" text="Введите название тега" AnchorPane.leftAnchor="100.0" />
-         </children></AnchorPane>
-  </content>
-</TitledPane>
+
+<AnchorPane prefHeight="358.0" prefWidth="546.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dzavalinskii.NewTagController">
+   <children>
+      <Label layoutX="104.0" layoutY="93.0" text="Введите название тега" AnchorPane.leftAnchor="100.0" />
+      <TextField fx:id="tag_name" layoutX="335.0" layoutY="89.0" AnchorPane.rightAnchor="100.0" />
+      <Button fx:id="ok_nt" defaultButton="true" layoutX="413.0" layoutY="282.0" mnemonicParsing="false" onAction="#addTag" text="ОК" AnchorPane.bottomAnchor="50.39999999999998" AnchorPane.rightAnchor="100.19999999999999" />
+      <Button fx:id="cancel_nt" cancelButton="true" layoutX="107.0" layoutY="282.0" mnemonicParsing="false" onAction="#cancel" text="Отмена" AnchorPane.bottomAnchor="50.39999999999998" AnchorPane.leftAnchor="100.0" />
+   </children>
+</AnchorPane>

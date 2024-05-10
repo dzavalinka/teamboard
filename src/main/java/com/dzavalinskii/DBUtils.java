@@ -480,33 +480,35 @@ public class DBUtils {
      * Метод для обновления данных персоны
      * @param name - новое имя персоны
      * @param description - новое описание персоны
-     * @param oldName - старое имя персоны
-     * @param collectiveId - id коллектива персоны
+     * @param id - идентификатор
      */
-    public static void updatePerson( String name, String description, String oldName, int collectiveId) {
-        Connection connection = null;
+    public static void updatePerson( String name, String description, int id) {
+        Connection connection1 = null;
+        Connection connection2 = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
         PreparedStatement psUpdate = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
-            psCheckNameCollision = connection.prepareStatement("SELECT * FROM persons WHERE name = ? AND collectiveId = ?");
+            connection1 = DriverManager.getConnection(jdbcURL);
+            connection1.setAutoCommit(true);
+            psCheckNameCollision = connection1.prepareStatement("SELECT * FROM persons " +
+                    "WHERE name = ? AND collectiveId = ?");
             psCheckNameCollision.setString(1, name);
-            psCheckNameCollision.setInt(2, collectiveId);
+            psCheckNameCollision.setInt(2, Main.currentCollectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.next() && oldName.compareTo(name) != 0) {
+            if (rs.next() && rs.getString("name").compareTo(name) == 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Персона с таким именем уже существует в этом коллективе.");
                 alert.show();
             } else {
-                psUpdate = connection.prepareStatement("UPDATE persons SET name = ?, description = ? " +
-                        "WHERE name = ? AND collectiveId = ?");
+                connection2 = DriverManager.getConnection(jdbcURL);
+                connection2.setAutoCommit(true);
+                psUpdate = connection2.prepareStatement("UPDATE persons SET name = ?, description = ? WHERE id = ?");
                 psUpdate.setString(1, name);
                 psUpdate.setString(2, description);
-                psUpdate.setString(3, oldName);
-                psUpdate.setInt(4, collectiveId);
+                psUpdate.setInt(3, id);
                 psUpdate.executeUpdate();
             }
 
@@ -535,9 +537,16 @@ public class DBUtils {
                     e.printStackTrace();
                 }
             }
-            if (connection != null) {
+            if (connection1 != null) {
                 try {
-                    connection.close();
+                    connection1.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection2 != null) {
+                try {
+                    connection2.close();
                 } catch (SQLException e) {
                     e.printStackTrace();
                 }
@@ -1353,20 +1362,26 @@ public class DBUtils {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return collectives;
@@ -1389,20 +1404,26 @@ public class DBUtils {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return boards;
@@ -1425,22 +1446,69 @@ public class DBUtils {
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            try {
-                rs.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-            try {
-                statement.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
-            try {
-                connection.close();
-            } catch (SQLException e) {
-                e.printStackTrace();
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
         }
         return persons;
+    }
+
+    public static String loadCollectiveName (int id) {
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        String res = "";
+
+        try {
+            connection = DriverManager.getConnection(jdbcURL);
+            ps = connection.prepareStatement("SELECT name FROM collectives WHERE id = ?");
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+            rs.next();
+            res = rs.getString("name");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return res;
     }
 }

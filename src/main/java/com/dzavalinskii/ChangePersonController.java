@@ -1,18 +1,23 @@
 package com.dzavalinskii;
 
+import com.dzavalinskii.util_classes.Person;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
-public class ChangePersonController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class ChangePersonController implements Initializable {
 
     @FXML
-    private Button add_tag_btn;
+    private Button save_ep;
 
     @FXML
     private Button cancel;
@@ -23,8 +28,6 @@ public class ChangePersonController {
     @FXML
     private TextField person_name_changed;
 
-    @FXML
-    private ListView<?> person_taglist_changed;
 
     @FXML
     void cancel_ep(ActionEvent event) {
@@ -33,7 +36,28 @@ public class ChangePersonController {
         currentStage.close();
     }
 
-    public void saveChanges(ActionEvent actionEvent) {
+    @FXML
+    void saveChanges(ActionEvent event) {
+        DBUtils.updatePerson(person_name_changed.getText(), person_desc_changed.getText(), Main.currentCollectiveId);
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
+    }
 
+    private Person person;
+    public ChangePersonController(Person person) {
+        this.person = person;
+    }
+
+    public ChangePersonController() {
+
+    }
+
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        if (person != null) {
+            person_desc_changed.setText(person.getDescription());
+            person_name_changed.setText(person.getName());
+        }
     }
 }
