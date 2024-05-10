@@ -8,10 +8,13 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
+import java.util.Date;
 
 public class DBUtils {
 
-    static String jdbcURL = "jdbc:derby:collectivedb";
+    static String jdbcURL = "jdbc:h2:./collectivedb";
+    static String login = "sa";
+    static String password = "";
 
     /**
      * Метод для добавления нового коллектива в БД
@@ -29,7 +32,7 @@ public class DBUtils {
         int id = 0;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM collectives WHERE name = ?");
             psCheckNameCollision.setString(1, name);
             rsCollision = psCheckNameCollision.executeQuery();
@@ -98,7 +101,7 @@ public class DBUtils {
         PreparedStatement psUpdate = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM collectives WHERE name = ?");
             psCheckNameCollision.setString(1, name);
             rs = psCheckNameCollision.executeQuery();
@@ -159,7 +162,7 @@ public class DBUtils {
         ResultSet rs = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psDelete = connection.prepareStatement("SELECT id FROM boards WHERE collectiveId = ?");
             psDelete.setInt(1, id);
             rs = psDelete.executeQuery();
@@ -222,14 +225,14 @@ public class DBUtils {
      * @param description - описание доски
      * @param timestamp - временная отметка доски
      */
-    public static void addBoard( int collectiveId, String name, String description, long timestamp) {
+    public static void addBoard( int collectiveId, String name, String description, Date timestamp) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
         PreparedStatement psInsert = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM boards " +
                     "WHERE name = ? AND collectiveId = ?");
             psCheckNameCollision.setString(1, name);
@@ -246,7 +249,7 @@ public class DBUtils {
                 psInsert.setInt(1, collectiveId);
                 psInsert.setString(2, name);
                 psInsert.setString(3, description);
-                psInsert.setLong(4, timestamp);
+                psInsert.setTimestamp(4, new Timestamp(timestamp.getTime()));
                 psInsert.executeUpdate();
             }
         } catch (SQLException e) {
@@ -297,7 +300,7 @@ public class DBUtils {
         PreparedStatement psUpdate = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM boards WHERE name = ? AND collectiveId = ?");
             psCheckNameCollision.setString(1, name);
             psCheckNameCollision.setInt(2, Main.currentCollectiveId);
@@ -361,7 +364,7 @@ public class DBUtils {
         ResultSet rs = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
 
             psDelete = connection.prepareStatement("SELECT id FROM links WHERE boardId = ?");
             psDelete.setInt(1, id);
@@ -420,7 +423,7 @@ public class DBUtils {
         PreparedStatement psInsert = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM persons " +
                     "WHERE name = ? AND collectiveId = ?");
             psCheckNameCollision.setString(1, name);
@@ -481,17 +484,14 @@ public class DBUtils {
      * @param id - идентификатор
      */
     public static void updatePerson( String name, String description, int id) {
-        addPerson(name,description, Main.currentCollectiveId);
-        softDeletePerson(id);
-        /*Connection connection1 = null;
+        Connection connection1 = null;
         Connection connection2 = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
         PreparedStatement psUpdate = null;
 
         try {
-            connection1 = DriverManager.getConnection(jdbcURL);
-            connection1.setAutoCommit(true);
+            connection1 = DriverManager.getConnection(jdbcURL, login, password);
             psCheckNameCollision = connection1.prepareStatement("SELECT * FROM persons " +
                     "WHERE name = ? AND collectiveId = ?");
             psCheckNameCollision.setString(1, name);
@@ -503,14 +503,14 @@ public class DBUtils {
                 alert.setContentText("Персона с таким именем уже существует в этом коллективе.");
                 alert.show();
             } else {
-                connection2 = DriverManager.getConnection(jdbcURL);
-                connection2.setAutoCommit(true);
-                psUpdate = connection2.prepareStatement("UPDATE persons SET name = ?, description = ?, collectiveId = ? WHERE id = ?");
+                connection2 = DriverManager.getConnection(jdbcURL, login, password);
+                psUpdate = connection2.prepareStatement("UPDATE persons SET name = ?, description = ?, collectiveId = ? " +
+                        "WHERE id = ?");
                 psUpdate.setString(1, name);
                 psUpdate.setString(2, description);
                 psUpdate.setInt(3, Main.currentCollectiveId);
                 psUpdate.setInt(4, id);
-                System.out.println(psUpdate.executeUpdate());
+                psUpdate.executeUpdate();
 
             }
 
@@ -553,14 +553,14 @@ public class DBUtils {
                     e.printStackTrace();
                 }
             }
-        }*/
+        }
     }
 
     public static void softDeletePerson(int id) {
         Connection connection = null;
         PreparedStatement psDelete = null;
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psDelete = connection.prepareStatement("DELETE FROM persons WHERE id = ?");
             psDelete.setInt(1, id);
             psDelete.executeUpdate();
@@ -594,7 +594,7 @@ public class DBUtils {
         ResultSet rs = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
 
             psDelete = connection.prepareStatement("SELECT id FROM links WHERE person1 = ?");
             psDelete.setInt(1, id);
@@ -660,7 +660,7 @@ public class DBUtils {
         PreparedStatement psInsert = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckPersonDuplication = connection.prepareStatement("SELECT * FROM personInfo " +
                     "WHERE boardId = ? AND personId = ?");
             psCheckPersonDuplication.setInt(1, boardId);
@@ -724,7 +724,7 @@ public class DBUtils {
         PreparedStatement psUpdate = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psUpdate = connection.prepareStatement("UPDATE personInfo SET x = ?, y = ? WHERE id = ?");
             psUpdate.setInt(1, x);
             psUpdate.setInt(2, y);
@@ -764,10 +764,10 @@ public class DBUtils {
         ResultSet rs = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
-            conn2 = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
+            conn2 = DriverManager.getConnection(jdbcURL, login, password);
 
-            psDelete = connection.prepareStatement("SELECT id FROM TagPerson WHERE id = ?");
+            psDelete = connection.prepareStatement("SELECT id FROM tagPerson WHERE id = ?");
             psDelete.setInt(1, id);
             rs = psDelete.executeQuery();
             while (rs.next()) {
@@ -843,7 +843,7 @@ public class DBUtils {
         PreparedStatement psInsert = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM linktypes " +
                     "WHERE name = ? AND collectiveId = ?");
             psCheckNameCollision.setString(1, name);
@@ -914,7 +914,7 @@ public class DBUtils {
         PreparedStatement psUpdate = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM linkTypes WHERE name = ? AND collectiveId = ?");
             psCheckNameCollision.setString(1, name);
             psCheckNameCollision.setInt(2, collectiveId);
@@ -980,7 +980,7 @@ public class DBUtils {
         PreparedStatement psDelete = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psDelete = connection.prepareStatement("DELETE FROM links WHERE linkTypeId = ?");
             psDelete.setInt(1, linkTypeId);
             psDelete.executeUpdate();
@@ -1021,7 +1021,7 @@ public class DBUtils {
         PreparedStatement psInsert = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckDuplication = connection.prepareStatement("SELECT * FROM links " +
                     "WHERE boardId = ? AND person1 = ? AND person2 = ? AND linkTypeId = ?");
             psCheckDuplication.setInt(1, boardId);
@@ -1087,7 +1087,7 @@ public class DBUtils {
         PreparedStatement psDelete = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psDelete = connection.prepareStatement("DELETE FROM links WHERE id = ?");
             psDelete.setInt(1, id);
             psDelete.executeUpdate();
@@ -1124,7 +1124,7 @@ public class DBUtils {
         PreparedStatement psInsert = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM tags WHERE name = ? AND collectiveId = ?");
             psCheckNameCollision.setString(1, name);
             psCheckNameCollision.setInt(2, collectiveId);
@@ -1189,7 +1189,7 @@ public class DBUtils {
         PreparedStatement psUpdate = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM tags WHERE name = ? AND collectiveId = ?");
             psCheckNameCollision.setString(1, name);
             psCheckNameCollision.setInt(2, collectiveId);
@@ -1251,13 +1251,12 @@ public class DBUtils {
         PreparedStatement psDelete = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
-            psDelete = connection.prepareStatement("DELETE FROM TagPerson WHERE TagId = ?");
+            connection = DriverManager.getConnection(jdbcURL, login, password);
+            psDelete = connection.prepareStatement("DELETE FROM tagPerson WHERE tagId = ?");
             psDelete.setInt(1, id);
             psDelete = connection.prepareStatement("DELETE FROM tags WHERE id = ?");
             psDelete.setInt(1, id);
             psDelete.executeUpdate();
-            //TODO почистить TagPerson
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -1281,19 +1280,19 @@ public class DBUtils {
     /**
      * Метод для присвоения тега представлению персоны
      * @param personInfoId - идентификатор представления персоны на какой-то из досок
-     * @param TagId - идентификатор тега
+     * @param tagId - идентификатор тега
      */
-    public static void addTagPerson( int personInfoId, int TagId) {
+    public static void addTagPerson( int personInfoId, int tagId) {
         Connection connection = null;
         PreparedStatement psCheckDuplication = null;
         ResultSet rs = null;
         PreparedStatement psInsert = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
-            psCheckDuplication = connection.prepareStatement("SELECT * FROM TagPerson WHERE personInfoId = ? AND TagId = ?");
+            connection = DriverManager.getConnection(jdbcURL, login, password);
+            psCheckDuplication = connection.prepareStatement("SELECT * FROM tagPerson WHERE personInfoId = ? AND tagId = ?");
             psCheckDuplication.setInt(1, personInfoId);
-            psCheckDuplication.setInt(2, TagId);
+            psCheckDuplication.setInt(2, tagId);
             rs = psCheckDuplication.executeQuery();
 
             if (rs.next()) {
@@ -1301,10 +1300,10 @@ public class DBUtils {
                 alert.setContentText("Такой тег уже есть у персоны.");
                 alert.show();
             } else {
-                psInsert = connection.prepareStatement("INSERT INTO TagPerson (personInfoId, TagId)" +
+                psInsert = connection.prepareStatement("INSERT INTO tagPerson (personInfoId, tagId)" +
                         " VALUES( ?, ?)");
                 psInsert.setInt(1, personInfoId);
-                psInsert.setInt(2, TagId);
+                psInsert.setInt(2, tagId);
                 psInsert.executeUpdate();
             }
 
@@ -1344,15 +1343,15 @@ public class DBUtils {
 
     /**
      * Метод для удаления тега у представления персоны на доске
-     * @param id - идентификатор TagPerson
+     * @param id - идентификатор tagPerson
      */
     public static void deleteTagPerson( int id) {
         Connection connection = null;
         PreparedStatement psDelete = null;
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
-            psDelete = connection.prepareStatement("DELETE FROM TagPerson WHERE id = ?");
+            connection = DriverManager.getConnection(jdbcURL, login, password);
+            psDelete = connection.prepareStatement("DELETE FROM tagPerson WHERE id = ?");
             psDelete.setInt(1, id);
             psDelete.executeUpdate();
 
@@ -1383,7 +1382,7 @@ public class DBUtils {
         ObservableList<Collective> collectives = FXCollections.observableArrayList();
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             statement = connection.createStatement();
             rs = statement.executeQuery("SELECT * FROM collectives");
             while (rs.next()) {
@@ -1424,12 +1423,12 @@ public class DBUtils {
         ObservableList<Board> boards = FXCollections.observableArrayList();
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             statement = connection.prepareStatement("SELECT * FROM boards WHERE collectiveId = ?");
             statement.setInt(1, Main.currentCollectiveId);
             rs = statement.executeQuery();
             while (rs.next()) {
-                boards.add(new Board(rs.getInt(1), rs.getString(3), rs.getString(4), rs.getLong(5), rs.getInt(2)));
+                boards.add(new Board(rs.getInt(1), rs.getString(3), rs.getString(4), rs.getTimestamp(5), rs.getInt(2)));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -1466,7 +1465,7 @@ public class DBUtils {
         ObservableList<Person> persons = FXCollections.observableArrayList();
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             statement = connection.prepareStatement("SELECT * FROM persons WHERE collectiveId = ?");
             statement.setInt(1, Main.currentCollectiveId);
             rs = statement.executeQuery();
@@ -1508,7 +1507,7 @@ public class DBUtils {
         String res = "";
 
         try {
-            connection = DriverManager.getConnection(jdbcURL);
+            connection = DriverManager.getConnection(jdbcURL, login, password);
             ps = connection.prepareStatement("SELECT name FROM collectives WHERE id = ?");
             ps.setInt(1, id);
             rs = ps.executeQuery();

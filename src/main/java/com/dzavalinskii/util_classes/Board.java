@@ -2,13 +2,13 @@ package com.dzavalinskii.util_classes;
 
 import javafx.beans.property.SimpleStringProperty;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
-public class Board implements Comparable<Board> {
+public class Board {
     public final int collectiveId;
     private SimpleStringProperty name;
     private SimpleStringProperty description;
-    private long timestamp;
+    private Timestamp timestamp;
 
     public final int id;
 
@@ -36,24 +36,19 @@ public class Board implements Comparable<Board> {
         this.description.set(description);
     }
 
-    public long getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(long timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
-    public Board(int collectiveId, String name, String description, long timestamp, int id) {
+    public Board(int collectiveId, String name, String description, Timestamp timestamp, int id) {
         this.collectiveId = collectiveId;
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
         this.timestamp = timestamp;
         this.id = id;
-    }
-
-    @Override
-    public int compareTo(Board o) {
-        return (int) (this.timestamp - o.timestamp);
     }
 }
