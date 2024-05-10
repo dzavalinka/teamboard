@@ -82,6 +82,7 @@ public class MainScreenController implements Initializable {
             stage.setTitle(person.getName());
             stage.show();
         }
+        event.consume();
     }
 
     @Override
@@ -172,7 +173,18 @@ public class MainScreenController implements Initializable {
         }
     }
 
-    public void changeBoard(MouseEvent mouseEvent) {
-
+    public void changeBoard(MouseEvent mouseEvent) throws IOException {
+        Board board = board_list.getSelectionModel().getSelectedItem();
+        Parent root = null;
+        if (board != null) {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("change_board_data.fxml"));
+            ChangeBoardController controller = new ChangeBoardController(board);
+            loader.setController(controller);
+            root = loader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.setTitle(board.getName());
+            stage.show();
+        }
     }
 }

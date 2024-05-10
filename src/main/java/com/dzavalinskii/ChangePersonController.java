@@ -2,7 +2,6 @@ package com.dzavalinskii;
 
 import com.dzavalinskii.util_classes.Person;
 import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
@@ -44,14 +43,19 @@ public class ChangePersonController implements Initializable {
         currentStage.close();
     }
 
+    @FXML
+    void deletePersonBtnAction(ActionEvent event) {
+        DBUtils.deletePerson(person.id);
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
+    }
+
     private Person person;
     public ChangePersonController(Person person) {
         this.person = person;
     }
 
-    public ChangePersonController() {
-
-    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

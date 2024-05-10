@@ -288,10 +288,9 @@ public class DBUtils {
      * @param name - новое название доски
      * @param description - новое описание доски
      * @param timestamp - новая временная отметка доски
-     * @param oldName - прошлое имя доски
-     * @param collectiveId - id коллектива, содержащего доску
+     * @param id идентификатор
      */
-    public static void updateBoard(String name, String description, long timestamp, String oldName, int collectiveId) {
+    public static void updateBoard(String name, String description, long timestamp, int id) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -301,21 +300,20 @@ public class DBUtils {
             connection = DriverManager.getConnection(jdbcURL);
             psCheckNameCollision = connection.prepareStatement("SELECT * FROM boards WHERE name = ? AND collectiveId = ?");
             psCheckNameCollision.setString(1, name);
-            psCheckNameCollision.setInt(2, collectiveId);
+            psCheckNameCollision.setInt(2, Main.currentCollectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.next() && oldName.compareTo(name) != 0) {
+            if (rs.next() && rs.getString("name").compareTo(name) == 0) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Доска с таким названием уже существует в этом коллективе.");
                 alert.show();
             } else {
                 psUpdate = connection.prepareStatement("UPDATE boards SET name = ?, description = ?, timestamp = ? " +
-                        "WHERE name = ? AND collectiveId = ?");
+                        "WHERE id = ?");
                 psUpdate.setString(1, name);
                 psUpdate.setString(2, description);
                 psUpdate.setLong(3, timestamp);
-                psUpdate.setString(4, oldName);
-                psUpdate.setInt(5, collectiveId);
+                psUpdate.setInt(4, id);
                 psUpdate.executeUpdate();
             }
 
@@ -483,7 +481,9 @@ public class DBUtils {
      * @param id - идентификатор
      */
     public static void updatePerson( String name, String description, int id) {
-        Connection connection1 = null;
+        addPerson(name,description, Main.currentCollectiveId);
+        softDeletePerson(id);
+        /*Connection connection1 = null;
         Connection connection2 = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -505,11 +505,13 @@ public class DBUtils {
             } else {
                 connection2 = DriverManager.getConnection(jdbcURL);
                 connection2.setAutoCommit(true);
-                psUpdate = connection2.prepareStatement("UPDATE persons SET name = ?, description = ? WHERE id = ?");
+                psUpdate = connection2.prepareStatement("UPDATE persons SET name = ?, description = ?, collectiveId = ? WHERE id = ?");
                 psUpdate.setString(1, name);
                 psUpdate.setString(2, description);
-                psUpdate.setInt(3, id);
-                psUpdate.executeUpdate();
+                psUpdate.setInt(3, Main.currentCollectiveId);
+                psUpdate.setInt(4, id);
+                System.out.println(psUpdate.executeUpdate());
+
             }
 
             //TODO image
@@ -551,7 +553,35 @@ public class DBUtils {
                     e.printStackTrace();
                 }
             }
+        }*/
+    }
+
+    public static void softDeletePerson(int id) {
+        Connection connection = null;
+        PreparedStatement psDelete = null;
+        try {
+            connection = DriverManager.getConnection(jdbcURL);
+            psDelete = connection.prepareStatement("DELETE FROM persons WHERE id = ?");
+            psDelete.setInt(1, id);
+            psDelete.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+        if (psDelete != null) {
+            try {
+                psDelete.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
     }
 
     /**
