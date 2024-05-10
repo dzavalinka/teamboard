@@ -3,11 +3,13 @@ package com.dzavalinskii;
 import com.dzavalinskii.util_classes.Board;
 import com.dzavalinskii.util_classes.Collective;
 import com.dzavalinskii.util_classes.Person;
+import com.dzavalinskii.util_classes.Tag;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.Alert;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Date;
 
 public class DBUtils {
@@ -1539,5 +1541,118 @@ public class DBUtils {
             }
         }
         return res;
+    }
+
+    public static ObservableList<Tag> loadPersonsTags (int personInfoId) {
+        ObservableList<Tag> tags = FXCollections.observableArrayList();
+        Connection connection = null;
+        Connection conn2 = null;
+        PreparedStatement statement1 = null;
+        PreparedStatement statement2 = null;
+        ResultSet rs1 = null;
+        ResultSet rs2 = null;
+
+        try {
+            connection = DriverManager.getConnection(jdbcURL, login, password);
+            conn2 = DriverManager.getConnection(jdbcURL, login, password);
+            statement1 = connection.prepareStatement("SELECT tagId FROM tagPerson WHERE personInfoId = ?");
+            statement1.setInt(1,personInfoId);
+            rs1 = statement1.executeQuery();
+            while (rs1.next()) {
+                statement2 = conn2.prepareStatement("SELECT * FROM tags WHERE id = ?");
+                rs2 = statement2.executeQuery();
+                rs2.next();
+                tags.add(new Tag(rs2.getInt("id"), rs2.getString("name"), rs2.getInt("collectiveId")));
+            }
+        } catch ( SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs1 != null) {
+                try {
+                    rs1.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (rs2 != null) {
+                try {
+                    rs2.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement1 != null) {
+                try {
+                    statement1.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement2 != null) {
+                try {
+                    statement2.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (conn2 != null) {
+                try {
+                    conn2.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return  tags;
+    }
+
+    public static ArrayList<Tag> loadTags() {
+        ArrayList<Tag> tags = new ArrayList<>();
+        Connection connection = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            connection = DriverManager.getConnection(jdbcURL, login, password);
+            ps = connection.prepareStatement("SELECT * FROM tags WHERE collectiveId = ?");
+            ps.setInt(1, Main.currentCollectiveId);
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                tags.add(new Tag(rs.getInt("id"), rs.getString("name"), rs.getInt("collectiveId")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        return tags;
     }
 }

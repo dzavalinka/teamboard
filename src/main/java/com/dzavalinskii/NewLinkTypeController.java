@@ -32,7 +32,9 @@ public class NewLinkTypeController {
 
     @FXML
     void addLinkType(ActionEvent event) {
-
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
     }
 
     @FXML

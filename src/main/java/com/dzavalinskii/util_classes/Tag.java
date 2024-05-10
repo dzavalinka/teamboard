@@ -2,12 +2,29 @@ package com.dzavalinskii.util_classes;
 
 public class Tag {
     private final int id;
-    private static int counter;
     private String name;
+    private int collectiveId;
 
-    public Tag(String name) {
+    public int getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getCollectiveId() {
+        return collectiveId;
+    }
+
+    public Tag(int id, String name, int collectiveId) {
         this.name = name;
-        this.id = counter;
-        counter++;
+        this.id = id;
+        this.collectiveId = collectiveId;
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }
