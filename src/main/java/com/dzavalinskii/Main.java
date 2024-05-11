@@ -17,6 +17,13 @@ public class Main extends Application {
     public static int currentCollectiveId = 0;
     public static int currentBoardId = 0;
 
+    /*public static void main(String[] args) throws SQLException {
+        Connection conn = DriverManager.getConnection(DBUtils.jdbcURL, DBUtils.login, DBUtils.password);
+        Statement s = conn.createStatement();
+
+        s.close();
+        conn.close();
+    }*/
 
     public void start(Stage primaryStage) {
         try {

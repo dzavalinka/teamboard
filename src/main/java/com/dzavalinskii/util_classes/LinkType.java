@@ -8,8 +8,7 @@ public class LinkType {
     private Color color;
     private SimpleStringProperty name;
     private boolean twoSided;
-    private final int id;
-    private static int counter;
+    public final int id;
 
     public LinkLineType getLineType() {
         return lineType;
@@ -39,12 +38,27 @@ public class LinkType {
         this.name.set(name);
     }
 
-    public LinkType(LinkLineType lineType, Color color, String name, boolean twoSided) {
+    public LinkType(int id, LinkLineType lineType, Color color, String name, boolean twoSided) {
         this.lineType = lineType;
         this.color = color;
         this.name.set(name);
         this.twoSided = twoSided;
-        this.id = counter;
-        counter++;
+        this.id = id;
+    }
+
+    public static String colorToString(Color color) {
+        String res = color.getRed() + " " + color.getBlue() + " " + color.getGreen() + " " + color.getOpacity();
+        return  res;
+    }
+
+    public static Color stringToColor(String string) {
+        String[] split = string.split(" ");
+        Color res = new Color(Long.parseLong(split[0]), Long.parseLong(split[1]), Long.parseLong(split[2]), Long.parseLong(split[3]));
+        return res;
+    }
+
+    @Override
+    public String toString() {
+        return getName();
     }
 }
