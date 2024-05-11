@@ -652,11 +652,12 @@ public class DBUtils {
      * @param boardId - id доски
      * @param personId - id персоны
      */
-    public static void addPersonInfo( int boardId, int personId) {
+    public static int addPersonInfo( int boardId, int personId) {
         Connection connection = null;
         PreparedStatement psCheckPersonDuplication = null;
         ResultSet rs = null;
         PreparedStatement psInsert = null;
+        int id = 0;
 
         try {
             connection = DriverManager.getConnection(jdbcURL, login, password);
@@ -676,8 +677,13 @@ public class DBUtils {
                 psInsert.setInt(1, boardId);
                 psInsert.setInt(2, personId);
                 psInsert.executeUpdate();
+                psInsert = connection.prepareStatement("SELECT id FROM personInfo WHERE boardId = ? AND personId = ?");
+                psInsert.setInt(1, boardId);
+                psInsert.setInt(2, personId);
+                rs = psInsert.executeQuery();
+                id = rs.getInt("id");
             }
-            //TODO добавление нода персоны на доску в (0;0)
+
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -710,6 +716,7 @@ public class DBUtils {
                 }
             }
         }
+        return id;
     }
 
     /**

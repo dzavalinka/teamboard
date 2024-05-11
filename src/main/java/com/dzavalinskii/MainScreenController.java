@@ -1,9 +1,6 @@
 package com.dzavalinskii;
 
-import com.dzavalinskii.util_classes.Board;
-import com.dzavalinskii.util_classes.BoardListCell;
-import com.dzavalinskii.util_classes.Person;
-import com.dzavalinskii.util_classes.PersonListCell;
+import com.dzavalinskii.util_classes.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +14,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
+import javafx.scene.shape.Arc;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -33,6 +33,9 @@ public class MainScreenController implements Initializable {
 
     @FXML
     private ScrollPane board_space;
+
+    @FXML
+    private Pane board_space_pane;
 
     @FXML
     private ListView<Board> board_list;
@@ -186,5 +189,34 @@ public class MainScreenController implements Initializable {
             stage.setTitle(board.getName());
             stage.show();
         }
+    }
+
+    public void addPersonToBoard() {
+        //Персону в БД, воспроизводим штуку из person_icon.fxml, пихаем на board_space, назначаем события на drag-n-drop
+        // записываем в бд коорды по onMouseDragReleased
+        // Подумать как линки обновлять и отрисовывать
+        Person person = persons_list.getSelectionModel().getSelectedItem();
+        VBox vbox = new VBox();
+        vbox.setPrefSize(35,45);
+        vbox.setMaxSize(35,45);
+        vbox.setMinSize(35,45);
+        Circle circle = new Circle(18);
+        Arc arc = new Arc();
+        arc.setLength(180);
+        arc.setRadiusX(29);
+        arc.setRadiusY(49);
+        //int id = DBUtils.addPersonInfo(Main.currentBoardId, person.id);
+        // Поправить типы столбцов чужих айдишников на лонги везде
+        PersonInfoLabel label = new PersonInfoLabel(person.getName(), 0);
+        //if (id != 0) {
+            vbox.getChildren().add(circle);
+            vbox.getChildren().add(arc);
+            vbox.getChildren().add(label);
+            board_space_pane.getChildren().add(vbox);
+        //}
+    }
+
+    public void fillBoard() {
+        // Загружаем personInfo и links по Main.currentBoardId,
     }
 }
