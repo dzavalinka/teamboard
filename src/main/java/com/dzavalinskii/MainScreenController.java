@@ -76,7 +76,7 @@ public class MainScreenController implements Initializable {
         Person person = persons_list.getSelectionModel().getSelectedItem();
         Parent root = null;
         if (person != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("change_person_data.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("person_info.fxml"));
             ChangePersonController controller = new ChangePersonController(person);
             loader.setController(controller);
             root = loader.load();
@@ -180,7 +180,7 @@ public class MainScreenController implements Initializable {
         Board board = board_list.getSelectionModel().getSelectedItem();
         Parent root = null;
         if (board != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("change_board_data.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("board_info.fxml"));
             ChangeBoardController controller = new ChangeBoardController(board);
             loader.setController(controller);
             root = loader.load();
@@ -205,7 +205,7 @@ public class MainScreenController implements Initializable {
         arc.setLength(180);
         arc.setRadiusX(29);
         arc.setRadiusY(49);
-        //int id = DBUtils.addPersonInfo(Main.currentBoardId, person.id);
+        long id = DBUtils.addPersonInfo(Main.currentBoardId, person.id);
         // Поправить типы столбцов чужих айдишников на лонги везде
         PersonInfoLabel label = new PersonInfoLabel(person.getName(), 0);
         //if (id != 0) {
@@ -218,5 +218,17 @@ public class MainScreenController implements Initializable {
 
     public void fillBoard() {
         // Загружаем personInfo и links по Main.currentBoardId,
+    }
+
+    public void collectiveInfoBtnClick(ActionEvent event) {
+        try {
+            Stage stage = new Stage();
+            Parent root = FXMLLoader.load(getClass().getResource("collective_info.fxml"));
+            stage.setScene(new Scene(root));
+            stage.setTitle("Информация о коллективе");
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

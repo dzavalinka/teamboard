@@ -97,3 +97,159 @@ Data conversion error converting "TIMESTAMP to BIGINT" [22018-224]
 2024-05-10 20:08:22.450475+03:00 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLDataException: Ошибка преобразования данных при конвертации "TIMESTAMP to BIGINT"
 Data conversion error converting "TIMESTAMP to BIGINT" [22018-224]
+2024-05-12 11:25:50.411284+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-224]
+2024-05-12 11:25:51.080343+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-224]
+2024-05-12 11:25:51.966316+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-224]
+2024-05-12 11:28:07.632675+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+SELECT * FROM personInfos WHERE boardId = ? [42102-224]
+2024-05-12 11:28:07.857128+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+SELECT * FROM personInfos WHERE boardId = ? [42102-224]
+2024-05-12 11:28:08.499920+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+SELECT * FROM personInfos WHERE boardId = ? [42102-224]
+2024-05-12 11:28:08.728229+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+SELECT * FROM personInfos WHERE boardId = ? [42102-224]
+2024-05-12 11:28:09.173905+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+SELECT * FROM personInfos WHERE boardId = ? [42102-224]
+2024-05-12 11:28:09.401420+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+SELECT * FROM personInfos WHERE boardId = ? [42102-224]
+2024-05-12 11:28:09.851070+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+SELECT * FROM personInfos WHERE boardId = ? [42102-224]
+2024-05-12 11:28:10.075984+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+SELECT * FROM personInfos WHERE boardId = ? [42102-224]
+2024-05-12 11:28:10.530376+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+SELECT * FROM personInfos WHERE boardId = ? [42102-224]
+2024-05-12 11:28:10.756031+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+SELECT * FROM personInfos WHERE boardId = ? [42102-224]
+2024-05-12 19:46:56.283582+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Синтаксическая ошибка в выражении SQL "CREATE TABLE collectives (id IDENTITY NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL[*]"; ожидалось "DEFAULT, GENERATED, ON UPDATE, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"
+Syntax error in SQL statement "CREATE TABLE collectives (id IDENTITY NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL[*]"; expected "DEFAULT, GENERATED, ON UPDATE, DEFAULT ON NULL, SEQUENCE, SELECTIVITY, COMMENT, CONSTRAINT, COMMENT, PRIMARY KEY, UNIQUE, NOT NULL, CHECK, REFERENCES, ,, )"; SQL statement:
+CREATE TABLE collectives (id IDENTITY NOT NULL PRIMARY KEY, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL [42001-224]
+2024-05-12 20:51:52.920972+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Ошибка преобразования данных при конвертации "TIMESTAMP '1970-01-01 03:00:19.867' (BOARDS: ""TIMESTAMP"" BIGINT NOT NULL)"
+Data conversion error converting "TIMESTAMP '1970-01-01 03:00:19.867' (BOARDS: ""TIMESTAMP"" BIGINT NOT NULL)"; SQL statement:
+INSERT INTO boards (collectiveId, name, description, timestamp) VALUES( ?, ?, ?, ?) [22018-224]
+2024-05-12 21:00:34.027322+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-224]
+2024-05-12 21:53:25.900887+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Ошибка преобразования данных при конвертации "Коллектив"
+Data conversion error converting "Коллектив"; SQL statement:
+SELECT * FROM collectives WHERE id = ? [22018-224]
+2024-05-12 22:53:15.798030+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Таблица "PERSONINFOS" не найдена
+Table "PERSONINFOS" not found; SQL statement:
+INSERT INTO personInfos (personId, boardId, x, y) VALUES (1, 1, 0, 0) [42102-224]
+2024-05-12 22:55:09.607889+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Столбец "CAT" не найден
+Column "CAT" not found; SQL statement:
+INSERT INTO tags (name, collectiveId) VALUES (cat, 1) [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.command.dml.Insert.doPrepare(Insert.java:300)
+	at org.h2.command.dml.DataChangeStatement.prepare(DataChangeStatement.java:37)
+	at org.h2.command.Parser.prepareCommand(Parser.java:489)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeUpdateInternal(JdbcStatement.java:190)
+	at org.h2.jdbc.JdbcStatement.executeUpdate(JdbcStatement.java:147)
+	at com.dzavalinskii/com.dzavalinskii.Main.main(Main.java:24)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at javafx.graphics@22.0.1/com.sun.javafx.application.LauncherImpl.launchApplicationWithArgs(LauncherImpl.java:464)
+	at javafx.graphics@22.0.1/com.sun.javafx.application.LauncherImpl.launchApplication(LauncherImpl.java:364)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at java.base/sun.launcher.LauncherHelper$FXHelper.main(LauncherHelper.java:1081)
+2024-05-12 22:59:27.505761+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Столбец "I" не найден
+Column "I" not found; SQL statement:
+SELECT * FROM tags WHERE REGEXP_LIKE(name, 'cat', i) [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.expression.OperationN.optimizeArguments(OperationN.java:80)
+	at org.h2.expression.function.RegexpFunction.optimize(RegexpFunction.java:234)
+	at org.h2.expression.Expression.optimizeCondition(Expression.java:148)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1177)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.command.Parser.prepareCommand(Parser.java:489)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:94)
+	at com.dzavalinskii/com.dzavalinskii.Main.main(Main.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at javafx.graphics@22.0.1/com.sun.javafx.application.LauncherImpl.launchApplicationWithArgs(LauncherImpl.java:464)
+	at javafx.graphics@22.0.1/com.sun.javafx.application.LauncherImpl.launchApplication(LauncherImpl.java:364)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at java.base/sun.launcher.LauncherHelper$FXHelper.main(LauncherHelper.java:1081)
+2024-05-12 23:00:03.613422+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-224]
+2024-05-12 23:00:38.651103+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Столбец "I" не найден
+Column "I" not found; SQL statement:
+SELECT * FROM tags WHERE REGEXP_LIKE(name, 'cat', i) [42122-224]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:514)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
+	at org.h2.message.DbException.get(DbException.java:223)
+	at org.h2.message.DbException.get(DbException.java:199)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:244)
+	at org.h2.expression.ExpressionColumn.optimizeOther(ExpressionColumn.java:226)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:213)
+	at org.h2.expression.OperationN.optimizeArguments(OperationN.java:80)
+	at org.h2.expression.function.RegexpFunction.optimize(RegexpFunction.java:234)
+	at org.h2.expression.Expression.optimizeCondition(Expression.java:148)
+	at org.h2.command.query.Select.prepareExpressions(Select.java:1177)
+	at org.h2.command.query.Query.prepare(Query.java:218)
+	at org.h2.command.Parser.prepareCommand(Parser.java:489)
+	at org.h2.engine.SessionLocal.prepareLocal(SessionLocal.java:639)
+	at org.h2.engine.SessionLocal.prepareCommand(SessionLocal.java:559)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1166)
+	at org.h2.jdbc.JdbcStatement.executeQuery(JdbcStatement.java:94)
+	at com.dzavalinskii/com.dzavalinskii.Main.main(Main.java:28)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at javafx.graphics@22.0.1/com.sun.javafx.application.LauncherImpl.launchApplicationWithArgs(LauncherImpl.java:464)
+	at javafx.graphics@22.0.1/com.sun.javafx.application.LauncherImpl.launchApplication(LauncherImpl.java:364)
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
+	at java.base/sun.launcher.LauncherHelper$FXHelper.main(LauncherHelper.java:1081)

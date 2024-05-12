@@ -25,7 +25,12 @@ public class NewTagController {
         currentStage.close();
     }
 
-    public void addTag(ActionEvent actionEvent) {
-
+    public void addTag(ActionEvent event) {
+        if (tag_name.getText().compareTo("") != 0) {
+            DBUtils.addTag(tag_name.getText(), Main.currentCollectiveId);
+            Node n = (Node) event.getSource();
+            Stage currentStage = (Stage) n.getScene().getWindow();
+            currentStage.close();
+        }
     }
 }

@@ -7,8 +7,8 @@ public class Person {
     private SimpleStringProperty name;
     private SimpleStringProperty description;
     private Image avatar;
-    public int id;
-    private int collectiveId;
+    public long id;
+    private long collectiveId;
 
     public String getName() {
         return name.get();
@@ -26,7 +26,7 @@ public class Person {
         this.description.set(description);
     }
 
-    public Person(int id, String name, String description, int collectiveId) {
+    public Person(long id, String name, String description, long collectiveId) {
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
         this.id = id;

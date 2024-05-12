@@ -1,11 +1,11 @@
 package com.dzavalinskii.util_classes;
 
 public class Tag {
-    private final int id;
+    private final long id;
     private String name;
-    private int collectiveId;
+    private long collectiveId;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
@@ -13,11 +13,11 @@ public class Tag {
         return name;
     }
 
-    public int getCollectiveId() {
+    public long getCollectiveId() {
         return collectiveId;
     }
 
-    public Tag(int id, String name, int collectiveId) {
+    public Tag(long id, String name, long collectiveId) {
         this.name = name;
         this.id = id;
         this.collectiveId = collectiveId;

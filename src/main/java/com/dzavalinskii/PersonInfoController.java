@@ -70,7 +70,7 @@ public class PersonInfoController implements Initializable {
     }
 
     public void addTag(ActionEvent event) {
-        int tagId = add_tag_choicebox.getValue().getId();
+        long tagId = add_tag_choicebox.getValue().getId();
         DBUtils.addTagPerson(personInfo.getId(), tagId);
         persons_tags.setItems(DBUtils.loadPersonsTags(personInfo.getId()));
     }

@@ -39,6 +39,7 @@
             <Button fx:id="new_linktype_button" mnemonicParsing="false" onAction="#newLinktypeBtnClick" text="Новый тип связи" />
             <Button fx:id="new_link_button" mnemonicParsing="false" onAction="#newLinkBtnClick" text="Новая связь" />
             <Button fx:id="new_tag_button" mnemonicParsing="false" onAction="#newTagBtnClick" text="Новый тег" />
+            <Button fx:id="collective_info_btn" mnemonicParsing="false" onAction="#collectiveInfoBtnClick" text="Информация о коллективе" />
         </items>
       </ToolBar>
    </top>

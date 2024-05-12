@@ -6,7 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class Collective {
     private SimpleStringProperty name;
     private SimpleStringProperty description;
-    public final int id;
+    public final long id;
 
     public String getName() {
         return name.get();
@@ -24,7 +24,7 @@ public class Collective {
         this.description.set(description);
     }
 
-    public Collective(int id, String name, String description) {
+    public Collective(long id, String name, String description) {
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);
         this.id = id;

@@ -5,12 +5,12 @@ import javafx.beans.property.SimpleStringProperty;
 import java.sql.Timestamp;
 
 public class Board {
-    public final int collectiveId;
+    public final long collectiveId;
     private SimpleStringProperty name;
     private SimpleStringProperty description;
     private Timestamp timestamp;
 
-    public final int id;
+    public final long id;
 
     public String getName() {
         return name.get();
@@ -44,7 +44,7 @@ public class Board {
         this.timestamp = timestamp;
     }
 
-    public Board(int collectiveId, String name, String description, Timestamp timestamp, int id) {
+    public Board(long collectiveId, String name, String description, Timestamp timestamp, long id) {
         this.collectiveId = collectiveId;
         this.name = new SimpleStringProperty(name);
         this.description = new SimpleStringProperty(description);

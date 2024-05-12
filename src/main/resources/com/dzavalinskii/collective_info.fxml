@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="535.0" prefWidth="711.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.dzavalinskii.CollectiveInfoController">
+   <children>
+      <Button fx:id="ok" layoutX="598.0" layoutY="451.0" mnemonicParsing="false" onAction="#save_changes" text="ОК" />
+      <Button fx:id="cancel" layoutX="72.0" layoutY="451.0" mnemonicParsing="false" onAction="#cancel" text="Отмена" />
+      <TabPane layoutX="56.0" layoutY="36.0" prefHeight="394.0" prefWidth="263.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Доски">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="boards_in_collective" layoutX="1.0" layoutY="1.0" prefHeight="364.0" prefWidth="263.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Персоны">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="persons_in_collective" layoutY="1.0" prefHeight="365.0" prefWidth="263.0" />
+                     </children>
+                  </AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Типы связей">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="linktypes_in_collective" prefHeight="367.0" prefWidth="263.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Теги">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ListView fx:id="tags_in_collective" prefHeight="366.0" prefWidth="263.0" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+      <Button fx:id="delete" layoutX="199.0" layoutY="451.0" mnemonicParsing="false" onAction="#delete" text="Удалить коллектив" />
+      <TextArea fx:id="collective_description" layoutX="431.0" layoutY="195.0" prefHeight="200.0" prefWidth="200.0" />
+      <TextField fx:id="collective_name" layoutX="432.0" layoutY="101.0" prefHeight="26.0" prefWidth="200.0" />
+      <Label layoutX="512.0" layoutY="75.0" text="Название коллектива" />
+      <Label layoutX="511.0" layoutY="168.0" text="Описание коллектива" />
+   </children>
+</AnchorPane>

@@ -3,32 +3,32 @@ package com.dzavalinskii.util_classes;
 import java.util.ArrayList;
 
 public class PersonInfo {
-    private final int id;
-    private int personId;
-    private int boardId;
-    private int x;
-    private int y;
+    private final long id;
+    private long personId;
+    private long boardId;
+    private long x;
+    private long y;
 
-    public int getId() {
+    public long getId() {
         return id;
     }
-    public int getPersonId() {
+    public long getPersonId() {
         return personId;
     }
 
-    public int getBoardId() {
+    public long getBoardId() {
         return boardId;
     }
 
-    public int getX() {
+    public long getX() {
         return x;
     }
 
-    public int getY() {
+    public long getY() {
         return y;
     }
 
-    public PersonInfo(int id, int personId, int boardId, int x, int y) {
+    public PersonInfo(long id, long personId, long boardId, long x, long y) {
         this.id = id;
         this.personId = personId;
         this.boardId = boardId;
