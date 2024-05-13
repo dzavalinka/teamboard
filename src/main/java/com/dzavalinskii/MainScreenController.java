@@ -178,46 +178,67 @@ public class MainScreenController implements Initializable {
 
     public void changeBoard(MouseEvent mouseEvent) throws IOException {
         Board board = board_list.getSelectionModel().getSelectedItem();
-        Parent root = null;
-        if (board != null) {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("board_info.fxml"));
-            ChangeBoardController controller = new ChangeBoardController(board);
-            loader.setController(controller);
-            root = loader.load();
-            Stage stage = new Stage();
-            stage.setScene(new Scene(root));
-            stage.setTitle(board.getName());
-            stage.show();
+        Main.currentBoardId = board.id;
+        fillBoard();
+        if (mouseEvent.getClickCount() == 2) {
+            Parent root = null;
+            if (board != null) {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("board_info.fxml"));
+                ChangeBoardController controller = new ChangeBoardController(board);
+                loader.setController(controller);
+                root = loader.load();
+                Stage stage = new Stage();
+                stage.setScene(new Scene(root));
+                stage.setTitle(board.getName());
+                stage.show();
+            }
         }
     }
 
-    public void addPersonToBoard() {
-        //Персону в БД, воспроизводим штуку из person_icon.fxml, пихаем на board_space, назначаем события на drag-n-drop
-        // записываем в бд коорды по onMouseDragReleased
-        // Подумать как линки обновлять и отрисовывать
-        Person person = persons_list.getSelectionModel().getSelectedItem();
+    public void placePersonOnBoard(Person person, double x, double y) {
+        x += board_space_pane.getScaleX()/2;
+        y += board_space_pane.getScaleY()/2;
+        DraggableMaker draggableMaker = new DraggableMaker();
         VBox vbox = new VBox();
         vbox.setPrefSize(35,45);
         vbox.setMaxSize(35,45);
         vbox.setMinSize(35,45);
+        draggableMaker.makeDraggable(vbox);
         Circle circle = new Circle(18);
         Arc arc = new Arc();
         arc.setLength(180);
         arc.setRadiusX(29);
         arc.setRadiusY(49);
-        long id = DBUtils.addPersonInfo(Main.currentBoardId, person.id);
-        // Поправить типы столбцов чужих айдишников на лонги везде
         PersonInfoLabel label = new PersonInfoLabel(person.getName(), 0);
-        //if (id != 0) {
-            vbox.getChildren().add(circle);
-            vbox.getChildren().add(arc);
-            vbox.getChildren().add(label);
+        vbox.getChildren().add(circle);
+        vbox.getChildren().add(arc);
+        vbox.getChildren().add(label);
+        long id = DBUtils.addPersonInfo(Main.currentBoardId, person.id);
+        vbox.setOnMouseDragReleased(e-> updatePersonCoordinates(vbox.getLayoutX(), vbox.getLayoutY(), id));
+        vbox.setLayoutX(x);
+        vbox.setLayoutY(y);
+
+        if (id != 0) {
             board_space_pane.getChildren().add(vbox);
-        //}
+        }
+    }
+
+    public void addPersonToBoard() {
+        if (Main.currentBoardId != 0 && persons_list.getSelectionModel().getSelectedItem() != null) {
+            Person person = persons_list.getSelectionModel().getSelectedItem();
+            DBUtils.addPersonInfo(Main.currentBoardId, person.id);
+            placePersonOnBoard(person, 0, 0);
+        }
+    }
+
+    public void updatePersonCoordinates(double x, double y, long id) {
+        DBUtils.updatePersonInfo(x, y, id);
     }
 
     public void fillBoard() {
         // Загружаем personInfo и links по Main.currentBoardId,
+        board_space_pane.getChildren().clear();
+
     }
 
     public void collectiveInfoBtnClick(ActionEvent event) {

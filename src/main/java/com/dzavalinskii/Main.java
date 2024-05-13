@@ -24,14 +24,14 @@ public class Main extends Application {
         //s.executeUpdate(s1);
         //s.executeUpdate(s2);
         //s.executeUpdate(s3);
-        String s1 = "SELECT * FROM tags WHERE REGEXP_LIKE(name, 'dog&cat', 'i')";
+        *//*String s1 = "SELECT * FROM tags WHERE REGEXP_LIKE(name, 'dog&cat', 'i')";
         rs = s.executeQuery(s1);
         rs.next();
         System.out.println(rs.getString(1));
         rs.next();
         System.out.println(rs.getString(1));
         // По очереди ищем вхождения, джойним, оставляем только &
-        // INTERSECT
+        // INTERSECT*//*
     }*/
     public void start(Stage primaryStage) {
         try {

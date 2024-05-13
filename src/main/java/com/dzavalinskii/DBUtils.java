@@ -11,9 +11,9 @@ import java.util.Date;
 
 public class DBUtils {
 
-    static String jdbcURL = "jdbc:h2:./collectivedb";
-    static String login = "sa";
-    static String password = "";
+    public static String jdbcURL = "jdbc:h2:./collectivedb";
+    public static String login = "sa";
+    public static String password = "";
 
     /**
      * Метод для добавления нового коллектива в БД
@@ -696,19 +696,18 @@ public class DBUtils {
      * @param y - координата y представления персоны на координатной сетке доски
      * @param id - идентификатор строки таблицы personInfo
      */
-    public static void updatePersonInfo( long x, long y, long id) {
+    public static void updatePersonInfo( double x, double y, long id) {
         Connection connection = null;
         PreparedStatement psUpdate = null;
 
         try {
             connection = DriverManager.getConnection(jdbcURL, login, password);
             psUpdate = connection.prepareStatement("UPDATE personInfo SET x = ?, y = ? WHERE id = ?");
-            psUpdate.setLong(1, x);
-            psUpdate.setLong(2, y);
+            psUpdate.setDouble(1, x);
+            psUpdate.setDouble(2, y);
             psUpdate.setLong(3, id);
             psUpdate.executeUpdate();
 
-            //TODO автообновление отображений линков, прикрутить на onDragDropped
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -876,12 +875,11 @@ public class DBUtils {
     /**
      * Метод для обновления вида связи между двумя персонами
      * @param color - новый цвет связи
-     * @param twosided - обновленный маркер наличия стрелки на связи
      * @param name - обновленное имя связи
      * @param linetype - обновленный тип линии связи
      * @param id - идентификатор типа связи
      */
-    public static void updateLinkType( String color, boolean twosided, String name, String linetype, long id) {
+    public static void updateLinkType( String color, String name, String linetype, long id) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -898,13 +896,12 @@ public class DBUtils {
                 alert.setContentText("Вид связи с таким названием уже существует в этом коллективе.");
                 alert.show();
             } else {
-                psUpdate = connection.prepareStatement("UPDATE linktypes SET color = ?, name = ?, linetype = ?, twosided = ? " +
+                psUpdate = connection.prepareStatement("UPDATE linktypes SET color = ?, name = ?, linetype = ? " +
                         "WHERE id = ?");
                 psUpdate.setString(1, color);
                 psUpdate.setString(2, name);
                 psUpdate.setString(3, linetype);
-                psUpdate.setBoolean(4, twosided);
-                psUpdate.setLong(5, id);
+                psUpdate.setLong(4, id);
                 psUpdate.executeUpdate();
             }
 
@@ -1151,10 +1148,9 @@ public class DBUtils {
     /**
      * Метод, позволяющий изменить тег
      * @param name - новый тег
-     * @param oldName - старый тег
-     * @param collectiveId - идентификатор коллектива
+     * @param id идентификатор
      */
-    public static void updateTag( String name, String oldName, long collectiveId) {
+    public static void updateTag( String name, long id) {
         Connection connection = null;
         PreparedStatement psCheckNameCollision = null;
         ResultSet rs = null;
@@ -1162,21 +1158,19 @@ public class DBUtils {
 
         try {
             connection = DriverManager.getConnection(jdbcURL, login, password);
-            psCheckNameCollision = connection.prepareStatement("SELECT * FROM tags WHERE name = ? AND collectiveId = ?");
+            psCheckNameCollision = connection.prepareStatement("SELECT * FROM tags WHERE name = ?");
             psCheckNameCollision.setString(1, name);
-            psCheckNameCollision.setLong(2, collectiveId);
             rs = psCheckNameCollision.executeQuery();
 
-            if (rs.next() && oldName.compareTo(name) != 0) {
+            if (rs.next() && rs.getLong("id") != id) {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setContentText("Такой тег уже существует.");
                 alert.show();
             } else {
                 psUpdate = connection.prepareStatement("UPDATE tags SET name = ? " +
-                        "WHERE name = ? AND collectiveId = ?");
+                        "WHERE id = ?");
                 psUpdate.setString(1, name);
-                psUpdate.setString(2, oldName);
-                psUpdate.setLong(3, collectiveId);
+                psUpdate.setLong(2, id);
                 psUpdate.executeUpdate();
             }
 
@@ -1626,7 +1620,7 @@ public class DBUtils {
         return tags;
     }
 
-    public static ObservableList<PersonInfo> loadPersonInfos() {
+    public static ObservableList<PersonInfo> loadPersonInfosByBoard() {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -1756,4 +1750,118 @@ public class DBUtils {
         return  collective;
     }
 
+    public static ObservableList<PersonInfo> loadPersonInfoByTag(long tagId) {
+        Connection connection = null;
+        Connection conn = null;
+        PreparedStatement statement1 = null;
+        PreparedStatement statement2 = null;
+        ResultSet rs1 = null;
+        ResultSet rs2 = null;
+        ObservableList<PersonInfo> personInfos = FXCollections.observableArrayList();
+
+        try {
+            connection = DriverManager.getConnection(jdbcURL, login, password);
+            conn = DriverManager.getConnection(jdbcURL, login, password);
+            statement1 = connection.prepareStatement("SELECT * FROM tagPerson WHERE tagId = ?");
+            statement1.setLong(1, tagId);
+            rs1 = statement1.executeQuery();
+            while (rs1.next()) {
+                statement2 = conn.prepareStatement("SELECT * FROM personInfo WHERE id = ?");
+                statement2.setDouble(1, rs1.getLong("personInfoId"));
+                rs2 = statement2.executeQuery();
+                rs2.next();
+                personInfos.add(new PersonInfo(rs2.getLong("id"), rs2.getLong("personId"),
+                        rs2.getLong("boardId"), rs2.getLong("x"), rs2.getLong("y")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs1 != null) {
+                try {
+                    rs1.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement1 != null) {
+                try {
+                    statement1.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        if (rs2 != null) {
+            try {
+                rs2.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (statement2 != null) {
+            try {
+                statement2.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        if (conn != null) {
+            try {
+                conn.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return personInfos;
+    }
+
+    public static ObservableList<Link> loadLinksByLinktype(long linktypeId) {
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet rs = null;
+        ObservableList<Link> links = FXCollections.observableArrayList();
+
+        try {
+            connection = DriverManager.getConnection(jdbcURL, login, password);
+            statement = connection.prepareStatement("SELECT * FROM links WHERE linkTypeId = ?");
+            statement.setLong(1, linktypeId);
+            rs = statement.executeQuery();
+            while (rs.next()) {
+                links.add(new Link(rs.getLong("linktypeId"), rs.getLong("person1"), rs.getLong("person2"),
+                        rs.getLong("boardId"), rs.getLong("id")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return links;
+    }
 }
