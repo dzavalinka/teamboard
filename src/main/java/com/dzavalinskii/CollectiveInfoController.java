@@ -96,4 +96,37 @@ public class CollectiveInfoController implements Initializable {
         currentStage.setTitle("Информация о теге");
         currentStage.setScene(new Scene(root));
     }
+
+    public void toPersonInfo(MouseEvent mouseEvent) throws IOException {
+        Node n = (Node) mouseEvent.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("person_info.fxml"));
+        PersonInfoController controller = new PersonInfoController(persons_in_collective.getSelectionModel().getSelectedItem());
+        loader.setController(controller);
+        Parent root = loader.load();
+        currentStage.setTitle("Информация о персоне");
+        currentStage.setScene(new Scene(root));
+    }
+
+    public void toBoardInfo(MouseEvent mouseEvent) throws IOException {
+        Node n = (Node) mouseEvent.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("board_info.fxml"));
+        BoardInfoController controller = new BoardInfoController(boards_in_collective.getSelectionModel().getSelectedItem());
+        loader.setController(controller);
+        Parent root = loader.load();
+        currentStage.setTitle("Информация о доске");
+        currentStage.setScene(new Scene(root));
+    }
+
+    public void toLinktypeInfo(MouseEvent mouseEvent) throws IOException {
+        Node n = (Node) mouseEvent.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("link_type_info.fxml"));
+        LinktypeInfoController controller = new LinktypeInfoController(linktypes_in_collective.getSelectionModel().getSelectedItem());
+        loader.setController(controller);
+        Parent root = loader.load();
+        currentStage.setTitle("Информация о типе связи");
+        currentStage.setScene(new Scene(root));
+    }
 }

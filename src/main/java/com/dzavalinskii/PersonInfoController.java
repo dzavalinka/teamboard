@@ -1,14 +1,13 @@
 package com.dzavalinskii;
 
-import com.dzavalinskii.util_classes.PersonInfo;
-import com.dzavalinskii.util_classes.Tag;
+import com.dzavalinskii.util_classes.Person;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.ListView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.net.URL;
@@ -17,61 +16,52 @@ import java.util.ResourceBundle;
 public class PersonInfoController implements Initializable {
 
     @FXML
-    private ChoiceBox<Tag> add_tag_choicebox;
+    private Button save_ep;
 
     @FXML
     private Button cancel;
 
     @FXML
-    private Button delete_person_info;
+    private TextArea person_desc_changed;
 
     @FXML
-    private ListView<Tag> persons_tags;
-
-    @FXML
-    private Button save_person_info;
+    private TextField person_name_changed;
 
 
     @FXML
-    void cancel(ActionEvent event) {
+    void cancel_ep(ActionEvent event) {
         Node n = (Node) event.getSource();
         Stage currentStage = (Stage) n.getScene().getWindow();
         currentStage.close();
     }
 
     @FXML
-    void deletePersonInfoBtnClicked(ActionEvent event) {
-        DBUtils.deletePersonInfo(personInfo.getId());
+    void saveChanges(ActionEvent event) {
+        DBUtils.updatePerson(person_name_changed.getText(), person_desc_changed.getText(), Main.currentCollectiveId);
         Node n = (Node) event.getSource();
         Stage currentStage = (Stage) n.getScene().getWindow();
         currentStage.close();
     }
 
     @FXML
-    void savePersonInfoBtnClicked(ActionEvent event) {
-        //TODO убрать одну из кнопок ок/отмена, сохранять теги в бд сразу.
+    void deletePersonBtnAction(ActionEvent event) {
+        DBUtils.deletePerson(person.id);
+        Node n = (Node) event.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        currentStage.close();
     }
 
-    private PersonInfo personInfo;
-    public PersonInfoController (PersonInfo personInfo) {
-        this.personInfo = personInfo;
+    private Person person;
+    public PersonInfoController(Person person) {
+        this.person = person;
     }
+
 
     @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        persons_tags.setItems(DBUtils.loadPersonsTags(personInfo.getId()));
-        add_tag_choicebox.getItems().addAll(DBUtils.loadPersonsTags(personInfo.getId()));
-        add_tag_choicebox.setOnAction(this::addTag);
-    }
-
-    @FXML
-    void removeTag() {
-        //TODO
-    }
-
-    public void addTag(ActionEvent event) {
-        long tagId = add_tag_choicebox.getValue().getId();
-        DBUtils.addTagPerson(personInfo.getId(), tagId);
-        persons_tags.setItems(DBUtils.loadPersonsTags(personInfo.getId()));
+    public void initialize(URL location, ResourceBundle resources) {
+        if (person != null) {
+            person_desc_changed.setText(person.getDescription());
+            person_name_changed.setText(person.getName());
+        }
     }
 }

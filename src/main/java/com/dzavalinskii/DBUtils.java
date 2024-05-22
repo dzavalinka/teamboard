@@ -652,6 +652,7 @@ public class DBUtils {
                 psInsert.setLong(1, boardId);
                 psInsert.setLong(2, personId);
                 rs = psInsert.executeQuery();
+                rs.next()
                 id = rs.getLong("id");
             }
 
@@ -1620,7 +1621,7 @@ public class DBUtils {
         return tags;
     }
 
-    public static ObservableList<PersonInfo> loadPersonInfosByBoard() {
+    public static ObservableList<PersonInfo> loadPersonInfosByBoard(long boardId) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet rs = null;
@@ -1629,7 +1630,7 @@ public class DBUtils {
         try {
             connection = DriverManager.getConnection(jdbcURL, login, password);
             statement = connection.prepareStatement("SELECT * FROM personInfos WHERE boardId = ?");
-            statement.setLong(1, Main.currentBoardId);
+            statement.setLong(1, boardId);
             rs = statement.executeQuery();
             while (rs.next()) {
                 personInfos.add(new PersonInfo(rs.getLong("id"), rs.getLong("personId"),

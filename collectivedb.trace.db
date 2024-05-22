@@ -253,3 +253,6 @@ SELECT * FROM tags WHERE REGEXP_LIKE(name, 'cat', i) [42122-224]
 	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104)
 	at java.base/java.lang.reflect.Method.invoke(Method.java:578)
 	at java.base/sun.launcher.LauncherHelper$FXHelper.main(LauncherHelper.java:1081)
+2024-05-13 20:35:18.158315+03:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Нет данных
+No data is available [2000-224]

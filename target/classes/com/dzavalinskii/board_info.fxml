@@ -3,20 +3,22 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Button fx:id="save_eb" layoutX="393.0" layoutY="309.0" mnemonicParsing="false" onAction="#saveBoardBtnClick" text="Сохранить" AnchorPane.rightAnchor="100.0" />
-      <Button fx:id="cancel_eb" layoutX="149.0" layoutY="309.0" mnemonicParsing="false" onAction="#cancel" text="Отмена" AnchorPane.leftAnchor="100.0" />
-      <Label layoutX="147.0" layoutY="50.0" text="Название доски" AnchorPane.leftAnchor="100.0" />
-      <Label layoutX="147.0" layoutY="107.0" text="Описание доски" AnchorPane.leftAnchor="100.0" />
-      <Label layoutX="147.0" layoutY="209.0" text="Временная отметка" AnchorPane.leftAnchor="100.0" />
-      <TextArea fx:id="board_desc_changed" layoutX="354.0" layoutY="107.0" prefHeight="78.0" prefWidth="200.0" AnchorPane.rightAnchor="100.0" />
-      <TextField fx:id="board_name_changed" layoutX="354.0" layoutY="46.0" prefHeight="26.0" prefWidth="200.0" AnchorPane.rightAnchor="100.0" />
-      <DatePicker fx:id="board_timestamp_changed" layoutX="357.0" layoutY="205.0" prefHeight="26.0" prefWidth="200.0" AnchorPane.rightAnchor="100.0" />
-      <Button fx:id="delete_eb" layoutX="191.0" layoutY="309.0" mnemonicParsing="false" onAction="#deleteBoardBtnClick" text="Удалить" />
+      <Button fx:id="save_eb" layoutX="451.0" layoutY="335.0" mnemonicParsing="false" onAction="#saveBoardBtnClick" text="Сохранить" AnchorPane.rightAnchor="74.60000000000002" />
+      <Button fx:id="cancel_eb" layoutX="78.0" layoutY="335.0" mnemonicParsing="false" onAction="#cancel" text="Отмена" AnchorPane.leftAnchor="78.0" />
+      <Label layoutX="363.0" layoutY="26.0" text="Название доски" AnchorPane.leftAnchor="363.0" />
+      <Label layoutX="363.0" layoutY="89.0" text="Описание доски" AnchorPane.leftAnchor="363.0" />
+      <Label layoutX="363.0" layoutY="200.0" text="Временная отметка" AnchorPane.leftAnchor="363.0" />
+      <TextArea fx:id="board_desc_changed" layoutX="363.0" layoutY="116.0" prefHeight="78.0" prefWidth="200.0" AnchorPane.rightAnchor="37.0" />
+      <TextField fx:id="board_name_changed" layoutX="363.0" layoutY="54.0" prefHeight="26.0" prefWidth="200.0" AnchorPane.rightAnchor="37.0" />
+      <DatePicker fx:id="board_timestamp_changed" layoutX="363.0" layoutY="227.0" prefHeight="26.0" prefWidth="200.0" AnchorPane.rightAnchor="37.0" />
+      <Button fx:id="delete_eb" layoutX="193.0" layoutY="335.0" mnemonicParsing="false" onAction="#deleteBoardBtnClick" text="Удалить" />
+      <ListView fx:id="person_infos" layoutX="51.0" layoutY="35.0" onMouseClicked="#toPersonOnBoardInfo" prefHeight="263.0" prefWidth="258.0" />
    </children>
 </AnchorPane>

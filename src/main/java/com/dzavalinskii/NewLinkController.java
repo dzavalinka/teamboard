@@ -55,8 +55,8 @@ public class NewLinkController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        p1_choicebox.getItems().setAll(DBUtils.loadPersonInfosByBoard());
-        p2_choicebox.getItems().setAll(DBUtils.loadPersonInfosByBoard());
+        p1_choicebox.getItems().setAll(DBUtils.loadPersonInfosByBoard(Main.currentBoardId));
+        p2_choicebox.getItems().setAll(DBUtils.loadPersonInfosByBoard(Main.currentBoardId));
         link_type_choicebox.getItems().setAll(DBUtils.loadLinkTypes());
     }
 }

@@ -19,7 +19,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ListView fx:id="boards_in_collective" layoutX="1.0" layoutY="1.0" prefHeight="364.0" prefWidth="263.0" />
+                        <ListView fx:id="boards_in_collective" layoutX="1.0" layoutY="1.0" onMouseClicked="#toBoardInfo" prefHeight="364.0" prefWidth="263.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -28,7 +28,7 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ListView fx:id="persons_in_collective" layoutY="1.0" prefHeight="365.0" prefWidth="263.0" />
+                        <ListView fx:id="persons_in_collective" layoutY="1.0" onMouseClicked="#toPersonInfo" prefHeight="365.0" prefWidth="263.0" />
                      </children>
                   </AnchorPane>
             </content>
@@ -37,7 +37,7 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ListView fx:id="linktypes_in_collective" prefHeight="367.0" prefWidth="263.0" />
+                        <ListView fx:id="linktypes_in_collective" onMouseClicked="#toLinktypeInfo" prefHeight="367.0" prefWidth="263.0" />
                      </children>
                   </AnchorPane>
               </content>

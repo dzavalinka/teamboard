@@ -1,21 +1,24 @@
 package com.dzavalinskii;
 
 import com.dzavalinskii.util_classes.Board;
+import com.dzavalinskii.util_classes.PersonInfo;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.*;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.ResourceBundle;
 
-public class ChangeBoardController implements Initializable {
+public class BoardInfoController implements Initializable {
 
     @FXML
     private TextArea board_desc_changed;
@@ -34,6 +37,9 @@ public class ChangeBoardController implements Initializable {
 
     @FXML
     private Button save_eb;
+
+    @FXML
+    private ListView<PersonInfo> person_infos;
 
     @FXML
     void cancel(ActionEvent event) {
@@ -61,7 +67,7 @@ public class ChangeBoardController implements Initializable {
 
     private Board board;
 
-    public ChangeBoardController(Board board) {
+    public BoardInfoController(Board board) {
         this.board = board;
     }
     @Override
@@ -70,5 +76,16 @@ public class ChangeBoardController implements Initializable {
             board_name_changed.setText(board.getName());
             board_desc_changed.setText(board.getDescription());
         }
+    }
+
+    public void toPersonOnBoardInfo(MouseEvent mouseEvent) throws IOException {
+        Node n = (Node) mouseEvent.getSource();
+        Stage currentStage = (Stage) n.getScene().getWindow();
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("link_type_info.fxml"));
+        PersonOnBoardInfoController controller = new PersonOnBoardInfoController(person_infos.getSelectionModel().getSelectedItem());
+        loader.setController(controller);
+        Parent root = loader.load();
+        currentStage.setTitle("");
+        currentStage.setScene(new Scene(root));
     }
 }

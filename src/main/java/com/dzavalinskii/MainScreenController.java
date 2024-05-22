@@ -77,7 +77,7 @@ public class MainScreenController implements Initializable {
         Parent root = null;
         if (person != null) {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("person_info.fxml"));
-            ChangePersonController controller = new ChangePersonController(person);
+            PersonInfoController controller = new PersonInfoController(person);
             loader.setController(controller);
             root = loader.load();
             Stage stage = new Stage();
@@ -184,7 +184,7 @@ public class MainScreenController implements Initializable {
             Parent root = null;
             if (board != null) {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("board_info.fxml"));
-                ChangeBoardController controller = new ChangeBoardController(board);
+                BoardInfoController controller = new BoardInfoController(board);
                 loader.setController(controller);
                 root = loader.load();
                 Stage stage = new Stage();
